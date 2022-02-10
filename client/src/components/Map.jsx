@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useRef } from 'react'
 import { GoogleMap, useLoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 import mapStyles from '../mapStyles';
 
@@ -33,7 +33,12 @@ function Map() {
         time: new Date(),
       },
     ]);
-  }, [])
+  }, []);
+
+  const mapRef = useRef();
+  const onMapLoad = useCallback((map) => {
+    mapRef.current = map;
+  }, []);
 
 
   if (loadError) return "Error loading maps";
@@ -46,6 +51,7 @@ function Map() {
       zoom={8}
       options={options}
       onClick={onMapClick}
+      onLoad={onMapLoad}
     >
       {markers.map(marker => ( 
         <Marker
