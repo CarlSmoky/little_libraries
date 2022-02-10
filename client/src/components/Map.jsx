@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useRef } from 'react'
 import { GoogleMap, useLoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 import mapStyles from '../mapStyles';
+import {formatRelative} from "date-fns";
 
 const mapContainerStyle = {
   width: '550px',
@@ -23,6 +24,8 @@ function Map() {
     libraries,
   });
   const [markers, setMarkers] = useState([]);
+  const [selected, setSelected] = useState(null);
+
   const onMapClick = useCallback((event) => {
     // console.log(event);
     setMarkers((current) => [
@@ -53,7 +56,7 @@ function Map() {
       onClick={onMapClick}
       onLoad={onMapLoad}
     >
-      {markers.map(marker => ( 
+      {markers.map(marker => (
         <Marker
           key={marker.time.toISOString}
           position={{ lat: marker.lat, lng: marker.lng }}
@@ -63,8 +66,25 @@ function Map() {
             origin: new window.google.maps.Point(0, 0),
             anchor: new window.google.maps.Point(15, 15),
           }}
+          onClick={() => {
+            setSelected(marker);
+          }}
         />
       ))}
+
+      {selected ? (
+        <InfoWindow 
+          position={{lat: selected.lat, lng: selected.lng}}
+          onCloseClick={() => {
+            setSelected(null);
+          }}
+        >
+          <div>
+            <h2>Little Library</h2>
+            <p>Spotted {formatRelative(selected.time, new Date())}</p>
+          </div>
+        </InfoWindow>
+        ) : null}
     </GoogleMap>
   );
 }
