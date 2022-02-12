@@ -4,7 +4,7 @@ import mapStyles from './mapStyles';
 import './Map.css';
 import { formatRelative } from "date-fns";
 import Search from './Search';
-
+import Locate from './Locate';
 
 const mapContainerStyle = {
   width: '550px',
@@ -21,9 +21,7 @@ const options = {
 }
 const libraries = ["places"];
 
-
-
-function Map() {
+const Map = () => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
@@ -53,16 +51,13 @@ function Map() {
     mapRef.current.setZoom(14);
   }, []);
 
-
   if (loadError) return "Error loading maps";
   if (!isLoaded) return "Loading Maps";
 
-  
-
-
   return (
     <>
-      <Search panTo={panTo}/>
+      <Search panTo={panTo} />
+      <Locate panTo={panTo} />
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         center={center}
@@ -73,7 +68,7 @@ function Map() {
       >
         {markers.map(marker => (
           <Marker
-            key={marker.time.toISOString}
+            key={`${marker.lat}-${marker.lng}`}
             position={{ lat: marker.lat, lng: marker.lng }}
             icon={{
               url: '/books.png',
