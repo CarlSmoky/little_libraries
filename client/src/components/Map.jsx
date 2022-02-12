@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useRef } from 'react'
-import { GoogleMap, useLoadScript, Marker, InfoWindow, Data } from '@react-google-maps/api';
+import { GoogleMap, useLoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 import mapStyles from './mapStyles';
 import './Map.css';
 import { formatRelative } from "date-fns";
