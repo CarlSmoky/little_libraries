@@ -1,7 +1,10 @@
 import React, { useState, useCallback, useRef } from 'react'
-import { GoogleMap, useLoadScript, Marker, InfoWindow } from '@react-google-maps/api';
-import mapStyles from '../mapStyles';
-import {formatRelative} from "date-fns";
+import { GoogleMap, useLoadScript, Marker, InfoWindow, Data } from '@react-google-maps/api';
+import mapStyles from './mapStyles';
+import './Map.css';
+import { formatRelative } from "date-fns";
+import Search from './Search';
+import Locate from './Locate';
 
 const mapContainerStyle = {
   width: '550px',
@@ -18,7 +21,7 @@ const options = {
 }
 const libraries = ["places"];
 
-function Map() {
+const Map = () => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
@@ -43,50 +46,57 @@ function Map() {
     mapRef.current = map;
   }, []);
 
+  const panTo = useCallback(({ lat, lng }) => {
+    mapRef.current.panTo({ lat, lng });
+    mapRef.current.setZoom(14);
+  }, []);
 
   if (loadError) return "Error loading maps";
   if (!isLoaded) return "Loading Maps";
 
   return (
-    <GoogleMap
-      mapContainerStyle={mapContainerStyle}
-      center={center}
-      zoom={8}
-      options={options}
-      onClick={onMapClick}
-      onLoad={onMapLoad}
-    >
-      {markers.map(marker => (
-        <Marker
-          key={marker.time.toISOString}
-          position={{ lat: marker.lat, lng: marker.lng }}
-          icon={{
-            url: '/books.png',
-            scaledSize: new window.google.maps.Size(30, 30),
-            origin: new window.google.maps.Point(0, 0),
-            anchor: new window.google.maps.Point(15, 15),
-          }}
-          onClick={() => {
-            setSelected(marker);
-          }}
-        />
-      ))}
+    <>
+      <Search panTo={panTo} />
+      <Locate panTo={panTo} />
+      <GoogleMap
+        mapContainerStyle={mapContainerStyle}
+        center={center}
+        zoom={8}
+        options={options}
+        onClick={onMapClick}
+        onLoad={onMapLoad}
+      >
+        {markers.map(marker => (
+          <Marker
+            key={`${marker.lat}-${marker.lng}`}
+            position={{ lat: marker.lat, lng: marker.lng }}
+            icon={{
+              url: '/books.png',
+              scaledSize: new window.google.maps.Size(30, 30),
+              origin: new window.google.maps.Point(0, 0),
+              anchor: new window.google.maps.Point(15, 15),
+            }}
+            onClick={() => {
+              setSelected(marker);
+            }}
+          />
+        ))}
 
-      {selected ? (
-        <InfoWindow 
-          position={{lat: selected.lat, lng: selected.lng}}
-          onCloseClick={() => {
-            setSelected(null);
-          }}
-        >
-          <div>
-            <h2>Little Library</h2>
-            <p>Spotted {formatRelative(selected.time, new Date())}</p>
-          </div>
-        </InfoWindow>
+        {selected ? (
+          <InfoWindow
+            position={{ lat: selected.lat, lng: selected.lng }}
+            onCloseClick={() => {
+              setSelected(null);
+            }}
+          >
+            <div>
+              <h2>Little Library</h2>
+              <p>Spotted {formatRelative(selected.time, new Date())}</p>
+            </div>
+          </InfoWindow>
         ) : null}
-    </GoogleMap>
+      </GoogleMap>
+    </>
   );
 }
-
 export default Map;
