@@ -12,7 +12,7 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from "use-places-autocomplete";
 
-function Search({ panTo }) {
+const Search = ({ panTo }) => {
   const {
     ready,
     value,
