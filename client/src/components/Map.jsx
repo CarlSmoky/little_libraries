@@ -6,6 +6,7 @@ import { formatRelative } from "date-fns";
 import Search from './Search';
 import Locate from './Locate';
 
+
 const mapContainerStyle = {
   width: '550px',
   height: '300px'
@@ -28,11 +29,6 @@ const mockData = [
     lng: -79.31379757151502,
     time: new Date(),
     name: "Our Condo"
-  }, {
-    lat: 43.691318186024226,
-    lng: -79.31464972693365,
-    time: new Date(),
-    name: "Box in front of Church"
   }, {
     lat: 43.67021259541388,
     lng: -79.3865904620357,
