@@ -21,23 +21,49 @@ const options = {
 }
 const libraries = ["places"];
 
+// TEMP:
+const mockData = [
+  {
+    lat: 43.68862500497191,
+    lng: -79.31379757151502,
+    time: new Date(),
+    name: "Our Condo"
+  }, {
+    lat: 43.691318186024226,
+    lng: -79.31464972693365,
+    time: new Date(),
+    name: "Box in front of Church"
+  }, {
+    lat: 43.67021259541388,
+    lng: -79.3865904620357,
+    time: new Date(),
+    name: "Yonge Bloor"
+  }, {
+    lat: 43.636179346566124,
+    lng: -79.34551598826303,
+    time: new Date(),
+    name: "Cherry Beach"
+  }
+]
+
 const Map = () => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
   });
-  const [markers, setMarkers] = useState([]);
+  const [markers, setMarkers] = useState(mockData);
   const [selected, setSelected] = useState(null);
 
   const onMapClick = useCallback((event) => {
-    // console.log(event);
+    let newMarker = {
+      lat: event.latLng.lat(),
+      lng: event.latLng.lng(),
+      time: new Date(),
+    };
+    console.log(newMarker);
     setMarkers((current) => [
       ...current,
-      {
-        lat: event.latLng.lat(),
-        lng: event.latLng.lng(),
-        time: new Date(),
-      },
+      newMarker,
     ]);
   }, []);
 
@@ -90,7 +116,7 @@ const Map = () => {
             }}
           >
             <div>
-              <h2>Little Library</h2>
+              <h2>{`Little Library ${selected.name}`}</h2>
               <p>Spotted {formatRelative(selected.time, new Date())}</p>
             </div>
           </InfoWindow>
