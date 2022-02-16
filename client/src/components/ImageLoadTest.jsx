@@ -14,6 +14,7 @@ const firebaseApp = initializeApp(firebaseConfig);
 // Get a reference to the storage service, which is used to create references in your storage bucket
 const storage = getStorage(firebaseApp);
 const [selectedImage, setSelectedImage] = useState(null);
+// this creates the firebase ref; use uploadBytes to connect the file to the ref
 const storageRef = ref(storage, 'images/album_art.png');
 console.log(process.env.REACT_APP_TEST);
   return (
