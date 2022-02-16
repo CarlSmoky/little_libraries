@@ -8,6 +8,7 @@ import SignUp from './components/SignUp';
 import Login from './components/Login';
 import Map from './components/Map';
 import ImageLoadTest from './components/ImageLoadTest';
+import ImageDownloadTest from './components/ImageDownloadTest';
 
 export default function App() {
 
@@ -21,6 +22,7 @@ export default function App() {
         <Route path ="/" element={<Map />}/>
         <Route path ="/signup" element={<SignUp />}/>
         <Route path ="/test" element={<ImageLoadTest />}/>
+        <Route path ="/download" element={<ImageDownloadTest />}/>
       </Routes>
     </BrowserRouter>
   </div >
