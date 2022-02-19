@@ -22,16 +22,16 @@ module.exports = ({ getUserByEmail, addUser }) => {
         }
 
         addUser(newUser.first_name, newUser.last_name, newUser.phone_number, newUser.email, hashedPassword)
-          .then((user) => {
+          .then(addedUser => {
             res
               .status(200)
               .send({
                 message: "Signed up successfully!",
-                id: user.id,
-                firstName: user.first_name,
-                lastName: user.last_name,
-                phoneNumber: user.phoneNumber,
-                email: user.email
+                id: addedUser.id,
+                firstName: addedUser.first_name,
+                lastName: addedUser.last_name,
+                phoneNumber: addedUser.phoneNumber,
+                email: addedUser.email
               });
           }).catch(err => {
             console.log(err);
