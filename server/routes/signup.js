@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const saltRounds = 10;
+const jsonwebtoken = require('jsonwebtoken');
 
 module.exports = ({ getUserByEmail, addUser }) => {
 
