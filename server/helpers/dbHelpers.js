@@ -23,10 +23,10 @@ module.exports = (db) => {
       .catch((err) => err);
   };
 
-  const addUser = (firstName, lastName, email, password) => {
+  const addUser = (firstName, lastName, phoneNumber, email, hashedPassword) => {
     const query = {
-      text: `INSERT INTO users (first_name, last_name, email, password) VALUES ($1, $2, $3, $4) RETURNING *`,
-      values: [firstName, lastName, email, password]
+      text: `INSERT INTO users(first_name, last_name, phone_number, email, password) VALUES($1, $2, $3, $4, $5) returning id, first_name, last_name, phone_number, email`,
+      values: [firstName, lastName, phoneNumber, email, hashedPassword]
     };
 
     return db.query(query)
