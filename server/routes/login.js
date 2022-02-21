@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 module.exports = ({getUserByEmail}) => {
 
@@ -17,10 +18,18 @@ module.exports = ({getUserByEmail}) => {
         bcrypt.compare(req.body.password, user.password)
           .then(result => {
             if (result) {
+              const id = user.id;
+              const token = jwt.sign({id}, process.env.JWT_SECRET, {
+                expiresIn: Number(process.env.JWT_EXPIRATION_TIME),
+              });
+
+
               res
                 .status(200)
                 .send({
                   message: "Login Success!",
+                  auth: true,
+                  token: token,
                   id: user.id,
                   firstName: user.first_name,
                   lastName: user.last_name,
