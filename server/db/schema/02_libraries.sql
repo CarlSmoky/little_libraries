@@ -4,6 +4,6 @@ CREATE TABLE "libraries" (
   "address" VARCHAR(255) NOT NULL,
   "lat" FLOAT NOT NULL,
   "long" FLOAT NOT NULL,
-  "image_url" VARCHAR(512) UNIQUE,
+  "image_url" VARCHAR(512),
   "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
