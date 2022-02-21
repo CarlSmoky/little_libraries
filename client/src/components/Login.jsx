@@ -29,9 +29,24 @@ const Login = () => {
       .then(response => {
         console.log("Our Response:", response.data);
         console.log("I'm the callback from the put call");
+        if (typeof window !== 'undefined') {
+          localStorage.setItem("token", response.data.token);
+        }
       });
   }
 
+  const userAuthenticated = () => {
+    const endpoints = {
+      "JWT": "http://localhost:3001/api/test"
+    }
+    axios.get(endpoints.JWT, {
+      headers: {
+        "x-access-token": localStorage.getItem("token"),
+      },
+    }).then(response => {
+      console.log(response);
+    });
+  };
 
   return (
     <div>
@@ -66,6 +81,7 @@ const Login = () => {
           Submit
         </Button>
       </Form>
+      {true && <Button onClick={userAuthenticated}>Auth</Button>}
     </div>
   )
 };

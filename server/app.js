@@ -8,6 +8,7 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const loginRouter = require('./routes/login');
 const signupRouter = require('./routes/signup');
+const testRouter = require('./routes/test');
 
 const app = express();
 const db = require('./db');
@@ -26,6 +27,12 @@ app.use('/users', usersRouter);
 app.use('/api/users', usersRouter(dbHelpers));
 app.use('/api/login', loginRouter(dbHelpers));
 app.use('/api/signup', signupRouter(dbHelpers));
+app.use('/api/test', testRouter());
+
+// app.get('/api/test', (req, res) => {
+//   console.log("get route, will use verifyJWT");
+//   res.send("Yo, u are authenticated Congrats!");
+// });
 
 
 module.exports = app;
