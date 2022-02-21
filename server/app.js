@@ -9,6 +9,7 @@ const usersRouter = require('./routes/users');
 const loginRouter = require('./routes/login');
 const signupRouter = require('./routes/signup');
 const testRouter = require('./routes/test');
+const librariesRouter = require('./routes/libraries');
 
 const app = express();
 const db = require('./db');
@@ -23,11 +24,13 @@ app.use(cors());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/libraries', librariesRouter);
 
 app.use('/api/users', usersRouter(dbHelpers));
 app.use('/api/login', loginRouter(dbHelpers));
 app.use('/api/signup', signupRouter(dbHelpers));
 app.use('/api/test', testRouter());
+app.use('/api/libraries', librariesRouter(dbHelpers));
 
 // app.get('/api/test', (req, res) => {
 //   console.log("get route, will use verifyJWT");

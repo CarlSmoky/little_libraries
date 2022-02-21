@@ -48,10 +48,23 @@ module.exports = (db) => {
 
   };
 
+  // libraries
+  const getLibraries = () => {
+    const query = {
+      text: 'SELECT * FROM libraries',
+    };
+
+    return db
+      .query(query)
+      .then((result) => result.rows)
+      .catch((err) => err);
+  };
+
   return {
     getUsers,
     getUserByEmail,
     addUser,
-    getUsersPosts
+    getUsersPosts,
+    getLibraries
   };
 };

@@ -1,10 +1,11 @@
-import React, { useState, useCallback, useRef } from 'react'
+import React, { useState, useCallback, useRef, useEffect } from 'react'
 import { GoogleMap, useLoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 import mapStyles from './mapStyles';
 import './Map.css';
 import { formatRelative } from "date-fns";
 import Search from './Search';
 import Locate from './Locate';
+import axios from  'axios';
 
 
 const mapContainerStyle = {
@@ -49,6 +50,26 @@ const Map = () => {
   });
   const [markers, setMarkers] = useState(mockData);
   const [selected, setSelected] = useState(null);
+
+  const fetchMarkers = () => {
+    axios.get('/api/libraries')
+    .then(result => {
+      console.log(result.data, "here!");
+      const dbMarkers = result.data.map(entry => ({
+        lat: entry.lat,
+        lng: entry.long,
+        time: new Date(),
+        name: entry.address,
+        image: entry.image_url
+      }))
+
+      setMarkers(dbMarkers);
+    })
+    .catch();
+  }
+  useEffect(() => {
+    fetchMarkers();
+  },[]);
 
   const onMapClick = useCallback((event) => {
     let newMarker = {
@@ -112,8 +133,8 @@ const Map = () => {
             }}
           >
             <div>
-              <h2>{`Little Library ${selected.name}`}</h2>
-              <p>Spotted {formatRelative(selected.time, new Date())}</p>
+              <h3>{`Little Library ${selected.name}`}</h3>
+              <img src={selected.image} alt="photo of library" width='100' height='100'/>
             </div>
           </InfoWindow>
         ) : null}
