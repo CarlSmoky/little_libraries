@@ -1,21 +1,14 @@
 import React, { useState } from 'react';
-import { initializeApp } from "firebase/app";
+import firebaseApp from './../Firebase.js'
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 
 export default function ImageLoadTest() {
-  const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-};
-const firebaseApp = initializeApp(firebaseConfig);
 
 // Get a reference to the storage service, which is used to create references in your storage bucket
 const storage = getStorage(firebaseApp);
 const [selectedImage, setSelectedImage] = useState(null);
 // this creates the firebase ref; use uploadBytes to connect the file to the ref
-const storageRef = ref(storage, 'images/album_art.png');
+const storageRef = ref(storage, 'images/album_art2.png');
 console.log(process.env.REACT_APP_TEST);
   return (
     <div>

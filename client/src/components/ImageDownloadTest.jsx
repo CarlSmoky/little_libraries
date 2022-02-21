@@ -1,15 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { initializeApp } from "firebase/app";
+import firebaseApp from './../Firebase.js'
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 export default function ImageDownloadTest() {
-  const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-  };
-  const firebaseApp = initializeApp(firebaseConfig);
 
   // Get a reference to the storage service, which is used to create references in your storage bucket
   const storage = getStorage(firebaseApp);
@@ -19,6 +12,7 @@ export default function ImageDownloadTest() {
   useEffect(() => {
     getDownloadURL(storageRef)
     .then((url) => {
+      console.log("here",url)
       setImageURL(url)
     })
   },[imageURL]);
@@ -26,6 +20,6 @@ export default function ImageDownloadTest() {
   return (
 
       <img src={imageURL} alt='firebase image'/>
-    
+
   );
 }
