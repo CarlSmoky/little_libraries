@@ -22,7 +22,7 @@ export default function App() {
         <Route path ="/" element={<Map />}/>
         <Route path ="/signup" element={<SignUp />}/>
         <Route path ="/login" element={<Login />}/>
-        <Route path ="/test" element={<ImageLoadTest />}/>
+        <Route path ="/upload" element={<ImageLoadTest />}/>
         <Route path ="/download" element={<ImageDownloadTest />}/>
       </Routes>
     </BrowserRouter>

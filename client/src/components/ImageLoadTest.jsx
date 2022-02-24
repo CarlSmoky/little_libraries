@@ -8,7 +8,7 @@ export default function ImageLoadTest() {
 const storage = getStorage(firebaseApp);
 const [selectedImage, setSelectedImage] = useState(null);
 // this creates the firebase ref; use uploadBytes to connect the file to the ref
-const storageRef = ref(storage, 'images/album_art2.png');
+const storageRef = ref(storage, 'images/4.jpg');
 console.log(process.env.REACT_APP_TEST);
   return (
     <div>
