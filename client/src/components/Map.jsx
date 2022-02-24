@@ -52,22 +52,19 @@ const Map = () => {
   });
   const [markers, setMarkers] = useState(mockData);
   const [selected, setSelected] = useState(null);
+  const [selectedImageUrl, setSelectedImageUrl] = useState();
 
   const fetchMarkers = () => {
     axios.get('/api/libraries')
     .then(result => {
-      const storage = getStorage();
-      return Promise.all([getDownloadURL(ref(storage, 'images/1.jpg')), result])
-      console.log(result);
-    })
-    .then(([url, result ]) => {
       console.log(result.data, "here!");
       const dbMarkers = result.data.map(entry => ({
         lat: entry.lat,
         lng: entry.long,
         time: new Date(),
         name: entry.address,
-        image: url
+        id: entry.id,
+        key: entry.id
       }))
 
       setMarkers(dbMarkers);
@@ -128,6 +125,11 @@ const Map = () => {
             }}
             onClick={() => {
               setSelected(marker);
+              const storage = getStorage();
+              getDownloadURL(ref(storage, `images/${marker.id}.jpg`))
+              .then(url => {
+                setSelectedImageUrl(url);
+              })
             }}
           />
         ))}
@@ -137,11 +139,12 @@ const Map = () => {
             position={{ lat: selected.lat, lng: selected.lng }}
             onCloseClick={() => {
               setSelected(null);
+              setSelectedImageUrl(null);
             }}
           >
             <div>
               <h3>{`Little Library ${selected.name}`}</h3>
-              <img src={selected.image} alt="photo of library" width='100' height='100'/>
+              <img src={selectedImageUrl} alt="photo of library" width='100' height='100'/>
             </div>
           </InfoWindow>
         ) : null}
