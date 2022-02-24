@@ -6,6 +6,8 @@ import { formatRelative } from "date-fns";
 import Search from './Search';
 import Locate from './Locate';
 import axios from  'axios';
+import firebaseApp from './../Firebase.js'; // temp, probably
+import { getStorage, ref, getDownloadURL } from "firebase/storage"; // temp
 
 
 const mapContainerStyle = {
@@ -54,13 +56,18 @@ const Map = () => {
   const fetchMarkers = () => {
     axios.get('/api/libraries')
     .then(result => {
+      const storage = getStorage();
+      return Promise.all([getDownloadURL(ref(storage, 'images/1.jpg')), result])
+      console.log(result);
+    })
+    .then(([url, result ]) => {
       console.log(result.data, "here!");
       const dbMarkers = result.data.map(entry => ({
         lat: entry.lat,
         lng: entry.long,
         time: new Date(),
         name: entry.address,
-        image: entry.image_url
+        image: url
       }))
 
       setMarkers(dbMarkers);
