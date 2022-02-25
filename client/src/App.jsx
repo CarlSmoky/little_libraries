@@ -9,6 +9,7 @@ import Login from './components/Login';
 import Map from './components/Map';
 import ImageLoadTest from './components/ImageLoadTest';
 import ImageDownloadTest from './components/ImageDownloadTest';
+import LibraryForm from './components/LibraryForm';
 
 export default function App() {
 
@@ -24,6 +25,7 @@ export default function App() {
         <Route path ="/login" element={<Login />}/>
         <Route path ="/upload" element={<ImageLoadTest />}/>
         <Route path ="/download" element={<ImageDownloadTest />}/>
+        <Route path ="/libraryForm" element={<LibraryForm />}/>
       </Routes>
     </BrowserRouter>
   </div >

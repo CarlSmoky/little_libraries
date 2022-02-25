@@ -5,9 +5,10 @@ import './Map.css';
 import { formatRelative } from "date-fns";
 import Search from './Search';
 import Locate from './Locate';
-import axios from  'axios';
+import axios from 'axios';
 import firebaseApp from './../Firebase.js'; // temp, probably
 import { getStorage, ref, getDownloadURL } from "firebase/storage"; // temp
+import { Button } from 'react-bootstrap';
 
 
 const mapContainerStyle = {
@@ -15,8 +16,8 @@ const mapContainerStyle = {
   height: '300px'
 };
 const center = {
-  lat: 43.654225,
-  lng: -79.383186
+  lat: 43.6884244,
+  lng: -79.3137875
 }
 const options = {
   styles: mapStyles,
@@ -56,24 +57,24 @@ const Map = () => {
 
   const fetchMarkers = () => {
     axios.get('/api/libraries')
-    .then(result => {
-      console.log(result.data, "here!");
-      const dbMarkers = result.data.map(entry => ({
-        lat: entry.lat,
-        lng: entry.long,
-        time: new Date(),
-        name: entry.address,
-        id: entry.id,
-        key: entry.id
-      }))
+      .then(result => {
+        console.log(result.data, "here!");
+        const dbMarkers = result.data.map(entry => ({
+          lat: entry.lat,
+          lng: entry.long,
+          time: new Date(),
+          name: entry.address,
+          id: entry.id,
+          key: entry.id
+        }))
 
-      setMarkers(dbMarkers);
-    })
-    .catch();
+        setMarkers(dbMarkers);
+      })
+      .catch();
   }
   useEffect(() => {
     fetchMarkers();
-  },[]);
+  }, []);
 
   const onMapClick = useCallback((event) => {
     let newMarker = {
@@ -108,7 +109,7 @@ const Map = () => {
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         center={center}
-        zoom={8}
+        zoom={12}
         options={options}
         onClick={onMapClick}
         onLoad={onMapLoad}
@@ -119,7 +120,7 @@ const Map = () => {
             position={{ lat: marker.lat, lng: marker.lng }}
             icon={{
               url: '/books.png',
-              scaledSize: new window.google.maps.Size(30, 30),
+              scaledSize: new window.google.maps.Size(24, 24),
               origin: new window.google.maps.Point(0, 0),
               anchor: new window.google.maps.Point(15, 15),
             }}
@@ -127,9 +128,9 @@ const Map = () => {
               setSelected(marker);
               const storage = getStorage();
               getDownloadURL(ref(storage, `images/${marker.id}.jpg`))
-              .then(url => {
-                setSelectedImageUrl(url);
-              })
+                .then(url => {
+                  setSelectedImageUrl(url);
+                })
             }}
           />
         ))}
@@ -143,8 +144,9 @@ const Map = () => {
             }}
           >
             <div>
+              {!selectedImageUrl && <Button onClick={() => console.log("clicked}")} />}
               <h3>{`Little Library ${selected.name}`}</h3>
-              <img src={selectedImageUrl} alt="photo of library" width='100' height='100'/>
+              <img src={selectedImageUrl} alt="photo of library" width='100' height='100' />
             </div>
           </InfoWindow>
         ) : null}
