@@ -9,6 +9,7 @@ import axios from 'axios';
 import firebaseApp from './../Firebase.js'; // temp, probably
 import { getStorage, ref, getDownloadURL } from "firebase/storage"; // temp
 import { Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 
 const mapContainerStyle = {
@@ -144,9 +145,16 @@ const Map = () => {
             }}
           >
             <div>
-              {!selectedImageUrl && <Button onClick={() => console.log("clicked}")} />}
-              <h3>{`Little Library ${selected.name}`}</h3>
-              <img src={selectedImageUrl} alt="photo of library" width='100' height='100' />
+            {selectedImageUrl && <h3>{`Little Library ${selected.name}`}</h3>}
+            {selectedImageUrl && <img src={selectedImageUrl} alt="photo of library" width='100' height='100' />}
+            {! selectedImageUrl && 
+            <Link 
+              to="/libraryForm"
+              state={{ lat: selected.lat,
+                      lng: selected.lng}}
+            >
+              Register Library
+            </Link>}
             </div>
           </InfoWindow>
         ) : null}

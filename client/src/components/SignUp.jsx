@@ -17,7 +17,7 @@ export default function SignUp() {
   });
   
 
-  const { first_name, last_name, username, phone_number, email,password, password_confirmation } = formData;
+  const { first_name, last_name, phone_number, email,password, password_confirmation } = formData;
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
