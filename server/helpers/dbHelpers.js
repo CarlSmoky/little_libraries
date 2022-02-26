@@ -60,11 +60,24 @@ module.exports = (db) => {
       .catch((err) => err);
   };
 
+  const addLibrary = (adress, lat, long) => {
+    const query = {
+      text: `INSERT INTO libraries (address, lat, long) VALUES($1, $2, $3) returning id`,
+      values: [adress, lat, long]
+    };
+
+    return db
+      .query(query)
+      .then((result) => result.rows[0])
+      .catch((err) => err);
+  };
+
   return {
     getUsers,
     getUserByEmail,
     addUser,
     getUsersPosts,
-    getLibraries
+    getLibraries,
+    addLibrary
   };
 };
