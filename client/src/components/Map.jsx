@@ -46,7 +46,8 @@ const Map = () => {
           time: new Date(),
           name: entry.address,
           id: entry.id,
-          key: entry.id
+          key: entry.id,
+          registered: true
         }))
 
         setMarkers(dbMarkers);
@@ -126,9 +127,9 @@ const Map = () => {
             }}
           >
             <div>
-            {selectedImageUrl && <h3>{`Little Library ${selected.name}`}</h3>}
-            {selectedImageUrl && <img src={selectedImageUrl} alt="photo of library" width='100' height='100' />}
-            {! selectedImageUrl &&
+            {selected.registered && <h3>{`Little Library ${selected.name}`}</h3>}
+            {selected.registered && <img src={selectedImageUrl} alt="photo of library" width='100' height='100' />}
+            {!selected.registered &&
             <Link
               to="/libraryForm"
               state={{ lat: selected.lat,
