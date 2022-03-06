@@ -27,32 +27,12 @@ const options = {
 }
 const libraries = ["places"];
 
-// TEMP:
-const mockData = [
-  {
-    lat: 43.68862500497191,
-    lng: -79.31379757151502,
-    time: new Date(),
-    name: "Our Condo"
-  }, {
-    lat: 43.67021259541388,
-    lng: -79.3865904620357,
-    time: new Date(),
-    name: "Yonge Bloor"
-  }, {
-    lat: 43.636179346566124,
-    lng: -79.34551598826303,
-    time: new Date(),
-    name: "Cherry Beach"
-  }
-]
-
 const Map = () => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
   });
-  const [markers, setMarkers] = useState(mockData);
+  const [markers, setMarkers] = useState([]);
   const [selected, setSelected] = useState(null);
   const [selectedImageUrl, setSelectedImageUrl] = useState();
 
@@ -88,6 +68,7 @@ const Map = () => {
       ...current,
       newMarker,
     ]);
+    setSelected(newMarker);
   }, []);
 
   const mapRef = useRef();
@@ -147,8 +128,8 @@ const Map = () => {
             <div>
             {selectedImageUrl && <h3>{`Little Library ${selected.name}`}</h3>}
             {selectedImageUrl && <img src={selectedImageUrl} alt="photo of library" width='100' height='100' />}
-            {! selectedImageUrl && 
-            <Link 
+            {! selectedImageUrl &&
+            <Link
               to="/libraryForm"
               state={{ lat: selected.lat,
                       lng: selected.lng}}
