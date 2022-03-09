@@ -18,9 +18,17 @@ module.exports = ({getUserByEmail}) => {
         bcrypt.compare(req.body.password, user.password)
           .then(result => {
             if (result) {
-              const id = user.id;
-              const token = jwt.sign({id}, process.env.JWT_SECRET, {
-                expiresIn: Number(process.env.JWT_EXPIRATION_TIME),
+              // const id = user.id;
+              // const firstName = user.first_name;
+              // const lastName = user.last_name;
+              const userInfo = {
+                id : user.id,
+                firstName : user.first_name,
+                lastName : user.last_name
+              };
+
+              const token = jwt.sign(userInfo, process.env.JWT_SECRET, {
+                expiresIn: process.env.JWT_EXPIRATION_TIME,
               });
 
 
@@ -30,11 +38,11 @@ module.exports = ({getUserByEmail}) => {
                   message: "Login Success!",
                   auth: true,
                   token: token,
-                  id: user.id,
-                  firstName: user.first_name,
-                  lastName: user.last_name,
-                  phoneNumber: user.phone_number,
-                  email: user.email
+                  // id: user.id,
+                  // firstName: user.first_name,
+                  // lastName: user.last_name,
+                  // phoneNumber: user.phone_number,
+                  // email: user.email
                 });
             } else {
               res

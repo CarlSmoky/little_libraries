@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const verifyJWT = require('./verifyJWT');
 
 
 module.exports = ({
@@ -15,10 +16,16 @@ module.exports = ({
       }));
   });
 
-  router.post('/', (req, res) => {
-    const {address, lat, lng} = req.body;
+  router.post('/', verifyJWT, (req, res) => {
+    const { address, lat, lng } = req.body;
     addLibrary(address, lat, lng)
-      .then((library) => res.json(library))
+      .then((library) => {
+        res.json({
+          library,
+          message: "Yo, u are authenticated Congrats!",
+          auth: true,
+        });
+      })
       .catch((err) => res.json({
         error: err.message
       }));

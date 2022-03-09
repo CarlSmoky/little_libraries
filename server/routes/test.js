@@ -10,10 +10,3 @@ module.exports = () => {
   });
   return router;
 };
-
-// router.get('/', verifyJWT, (req, res) => {
-//   console.log("get route, will use verifyJWT");
-//   res.send("Yo, u are authenticated Congrats!");
-// });
-
-// module.exports = router;
