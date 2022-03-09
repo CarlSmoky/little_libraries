@@ -1,37 +1,39 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap/';
 import axios from 'axios';
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const validateForm = () => {
     return email.length > 0 && password.length > 0;
   }
 
-  const userInfo = {
+  const authInput = {
     email,
     password
   }
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    auth(userInfo);
+    auth(authInput);
   }
 
-  const auth = (userInfo) => {
+  const auth = (authInput) => {
     const endpoints = {
       "LOGIN": "http://localhost:3001/api/login"
     }
 
-    axios.post(endpoints.LOGIN, userInfo)
+    axios.post(endpoints.LOGIN, authInput)
       .then(response => {
         console.log("Our Response:", response.data);
-        console.log("I'm the callback from the put call");
         if (typeof window !== 'undefined') {
           localStorage.setItem("token", response.data.token);
         }
+        navigate('/')
       });
   }
 
