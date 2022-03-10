@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const saltRounds = 10;
-const jsonwebtoken = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
 module.exports = ({ getUserByEmail, addUser }) => {
 
@@ -24,15 +24,25 @@ module.exports = ({ getUserByEmail, addUser }) => {
 
         addUser(newUser.first_name, newUser.last_name, newUser.phone_number, newUser.email, hashedPassword)
           .then(addedUser => {
+            const userInfo = {
+              id : addedUser.id,
+              firstName : addedUser.first_name,
+              lastName : addedUser.phoneNumber
+            };
+            const token = jwt.sign(userInfo, process.env.JWT_SECRET, {
+              expiresIn: process.env.JWT_EXPIRATION_TIME,
+            });
             res
               .status(200)
               .send({
                 message: "Signed up successfully!",
+                auth: true,
+                token: token,
                 id: addedUser.id,
-                firstName: addedUser.first_name,
-                lastName: addedUser.last_name,
-                phoneNumber: addedUser.phoneNumber,
-                email: addedUser.email
+                // firstName: addedUser.first_name,
+                // lastName: addedUser.last_name,
+                // phoneNumber: addedUser.phoneNumber,
+                // email: addedUser.email
               });
           }).catch(err => {
             console.log(err);

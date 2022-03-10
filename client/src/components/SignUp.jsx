@@ -2,9 +2,11 @@ import React from 'react'
 // import './SignUp.scss'
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom'
 
 
 export default function SignUp() {
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     first_name: "",
@@ -45,6 +47,10 @@ export default function SignUp() {
       .then(response => {
         console.log("Our Response:", response.data);
         console.log("I'm the callback from the put call");
+        if (typeof window !== 'undefined') {
+          localStorage.setItem("token", response.data.token);
+        }
+        navigate('/')
       });
     }
 
