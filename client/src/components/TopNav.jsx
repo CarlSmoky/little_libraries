@@ -1,6 +1,13 @@
 import {Navbar, Container, NavDropdown, Nav, Offcanvas, Form, FormControl, Button} from 'react-bootstrap/';
+import { useNavigate } from 'react-router-dom'
 
 export default function TopNav() {
+  const navigate = useNavigate();
+
+  const logoutHandler = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
 
   return (
     <div>
@@ -20,6 +27,7 @@ export default function TopNav() {
               <Nav className="justify-content-end flex-grow-1 pe-3">
                 <Nav.Link href="#action1">Home</Nav.Link>
                 <Nav.Link href="#action2">Link</Nav.Link>
+                <Nav.Link onClick={logoutHandler}>Logout</Nav.Link>
                 <NavDropdown title="Dropdown" id="offcanvasNavbarDropdown">
                   <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
                   <NavDropdown.Item href="#action4">Another action</NavDropdown.Item>
