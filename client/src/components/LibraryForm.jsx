@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Form, Button, Row, Col } from 'react-bootstrap/';
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom'
 
 const LibraryForm = () => {
   const location = useLocation();
@@ -11,6 +12,7 @@ const LibraryForm = () => {
     lat: lat,
     lng: lng
   });
+  const navigate = useNavigate();
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -34,6 +36,7 @@ const LibraryForm = () => {
     .then(response => {
       console.log("Our Response:", response.data);
       console.log("I'm the callback from the put call");
+      navigate(`/libraryDetail/${response.data.library.id}`)
     });
   }
 
