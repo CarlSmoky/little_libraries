@@ -60,9 +60,21 @@ module.exports = (db) => {
       .catch((err) => err);
   };
 
+  const getLibraryById = id => {
+    const query = {
+      text: `SELECT * FROM libraries WHERE id = $1`,
+      values: [id]
+    };
+
+    return db
+      .query(query)
+      .then((result) =>result.rows[0])
+      .catch((err) => err);
+  };
+
   const addLibrary = (adress, lat, long) => {
     const query = {
-      text: `INSERT INTO libraries (address, lat, long) VALUES($1, $2, $3) returning id`,
+      text: `INSERT INTO libraries (address, lat, long) VALUES($1, $2, $3) returning *`,
       values: [adress, lat, long]
     };
 
@@ -78,6 +90,7 @@ module.exports = (db) => {
     addUser,
     getUsersPosts,
     getLibraries,
+    getLibraryById,
     addLibrary
   };
 };
