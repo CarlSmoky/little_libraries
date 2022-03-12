@@ -25,11 +25,11 @@ const LibraryPage = () => {
         console.log(err)
       })
     }, [id]);
-
+  console.log(id);
   return (
     <div>
       <LibraryDetail libraryInfo={libraryInfo}/>
-      <Map />
+      <Map id={id} />
     </div>
   )
 }

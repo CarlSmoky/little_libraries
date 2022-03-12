@@ -11,55 +11,48 @@ import { getStorage, ref, getDownloadURL } from "firebase/storage"; // temp
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { markerContext } from '../providers/MarkerProvider';
+import lightFormat from 'date-fns/lightFormat';
 
 
-const mapContainerStyle = {
+let mapContainerStyle = {
   width: '550px',
   height: '300px'
 };
-const center = {
-  lat: 43.6884244,
-  lng: -79.3137875
-}
+
 const options = {
   styles: mapStyles,
   disableDefaultUI: true,
   zoomControl: true,
 }
+let center =  {
+  lat: 43.6884244,
+  lng: -79.3137875
+}
 const libraries = ["places"];
 
-const Map = () => {
-  const { markers, setMarkers } = useContext(markerContext);
-
+const Map = ({ id }) => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
   });
+
+
   // const [markers, setMarkers] = useState([]);
+  const { markers, setMarkers } = useContext(markerContext);
   const [selected, setSelected] = useState(null);
   const [selectedImageUrl, setSelectedImageUrl] = useState();
 
-  // const fetchMarkers = () => {
-  //   axios.get('/api/libraries')
-  //     .then(result => {
-  //       console.log(result.data, "here!");
-  //       const dbMarkers = result.data.map(entry => ({
-  //         lat: entry.lat,
-  //         lng: entry.long,
-  //         time: new Date(),
-  //         name: entry.address,
-  //         id: entry.id,
-  //         key: entry.id,
-  //         registered: true
-  //       }))
+  const markerById = (id) => {
+    const result = markers.filter(e => e.id === id);
+    console.log("results", result);
 
-  //       setMarkers(dbMarkers);
-  //     })
-  //     .catch();
-  // }
-  // useEffect(() => {
-  //   fetchMarkers();
-  // }, []);
+    return result;
+  }
+  
+  const singleMarker = markerById(Number(id));
+  const mapMarkers = id ? singleMarker : markers;
+  console.log(mapMarkers);
+
 
   const onMapClick = useCallback((event) => {
     let newMarker = {
@@ -88,6 +81,7 @@ const Map = () => {
 
   if (loadError) return "Error loading maps";
   if (!isLoaded) return "Loading Maps";
+  console.log("markers-->", markers);
 
   return (
     <>
@@ -101,7 +95,7 @@ const Map = () => {
         onClick={onMapClick}
         onLoad={onMapLoad}
       >
-        {markers.map(marker => (
+        {mapMarkers.map(marker => (
           <Marker
             key={`${marker.lat}-${marker.lng}`}
             position={{ lat: marker.lat, lng: marker.lng }}
