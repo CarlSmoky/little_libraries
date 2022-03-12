@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react'
+import React, { useState, useCallback, useRef, useEffect, useContext } from 'react'
 import { GoogleMap, useLoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 import mapStyles from './mapStyles';
 import './Map.css';
@@ -10,6 +10,7 @@ import firebaseApp from './../Firebase.js'; // temp, probably
 import { getStorage, ref, getDownloadURL } from "firebase/storage"; // temp
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { markerContext } from '../providers/MarkerProvider';
 
 
 const mapContainerStyle = {
@@ -28,41 +29,44 @@ const options = {
 const libraries = ["places"];
 
 const Map = () => {
+  const { markers, setMarkers } = useContext(markerContext);
+
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
   });
-  const [markers, setMarkers] = useState([]);
+  // const [markers, setMarkers] = useState([]);
   const [selected, setSelected] = useState(null);
   const [selectedImageUrl, setSelectedImageUrl] = useState();
 
-  const fetchMarkers = () => {
-    axios.get('/api/libraries')
-      .then(result => {
-        console.log(result.data, "here!");
-        const dbMarkers = result.data.map(entry => ({
-          lat: entry.lat,
-          lng: entry.long,
-          time: new Date(),
-          name: entry.address,
-          id: entry.id,
-          key: entry.id,
-          registered: true
-        }))
+  // const fetchMarkers = () => {
+  //   axios.get('/api/libraries')
+  //     .then(result => {
+  //       console.log(result.data, "here!");
+  //       const dbMarkers = result.data.map(entry => ({
+  //         lat: entry.lat,
+  //         lng: entry.long,
+  //         time: new Date(),
+  //         name: entry.address,
+  //         id: entry.id,
+  //         key: entry.id,
+  //         registered: true
+  //       }))
 
-        setMarkers(dbMarkers);
-      })
-      .catch();
-  }
-  useEffect(() => {
-    fetchMarkers();
-  }, []);
+  //       setMarkers(dbMarkers);
+  //     })
+  //     .catch();
+  // }
+  // useEffect(() => {
+  //   fetchMarkers();
+  // }, []);
 
   const onMapClick = useCallback((event) => {
     let newMarker = {
       lat: event.latLng.lat(),
       lng: event.latLng.lng(),
       time: new Date(),
+      registered: false
     };
     console.log(newMarker);
     setMarkers((current) => [
