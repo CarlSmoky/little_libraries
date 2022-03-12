@@ -36,7 +36,7 @@ const LibraryForm = () => {
     .then(response => {
       console.log("Our Response:", response.data);
       console.log("I'm the callback from the put call");
-      navigate(`/libraryDetail/${response.data.library.id}`)
+      navigate(`/library/${response.data.library.id}`)
     });
   }
 

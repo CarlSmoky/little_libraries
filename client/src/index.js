@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import MarkerProvider from './providers/MarkerProvider'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <MarkerProvider>
+      <App />
+    </MarkerProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
