@@ -15,8 +15,8 @@ import lightFormat from 'date-fns/lightFormat';
 
 
 let mapContainerStyle = {
-  width: '550px',
-  height: '300px'
+  width: '900px',
+  height: '600px'
 };
 
 const options = {
@@ -24,7 +24,7 @@ const options = {
   disableDefaultUI: true,
   zoomControl: true,
 }
-let center =  {
+const defaultCenter =  {
   lat: 43.6884244,
   lng: -79.3137875
 }
@@ -36,23 +36,35 @@ const Map = ({ id }) => {
     libraries,
   });
 
-
-  // const [markers, setMarkers] = useState([]);
   const { markers, setMarkers } = useContext(markerContext);
+  const [localMarkers, setLocalMarkers ] = useState(markers);
+  const [center, setCenter] = useState(defaultCenter);
   const [selected, setSelected] = useState(null);
   const [selectedImageUrl, setSelectedImageUrl] = useState();
 
   const markerById = (id) => {
-    const result = markers.filter(e => e.id === id);
-    console.log("results", result);
-
+    const result = markers.filter(e => e.id === Number(id));
     return result;
   }
-  
-  const singleMarker = markerById(Number(id));
-  const mapMarkers = id ? singleMarker : markers;
-  console.log(mapMarkers);
 
+  useEffect(() => {
+    // when markers fetch completes, this code runs
+    handleSingleMarker();
+  }, [markers]);
+
+  const handleSingleMarker = () => {
+    if (id && markers.length > 0) {
+      const singleMarker = markerById(id);
+      setLocalMarkers(singleMarker);
+      setCenter({
+        lat: singleMarker[0].lat,
+        lng: singleMarker[0].lng,
+      });
+    } else {
+      // if either id is missing or markers is still empty:
+      setLocalMarkers(markers);
+    }
+  }
 
   const onMapClick = useCallback((event) => {
     let newMarker = {
@@ -95,7 +107,7 @@ const Map = ({ id }) => {
         onClick={onMapClick}
         onLoad={onMapLoad}
       >
-        {mapMarkers.map(marker => (
+        {localMarkers.map(marker => (
           <Marker
             key={`${marker.lat}-${marker.lng}`}
             position={{ lat: marker.lat, lng: marker.lng }}
