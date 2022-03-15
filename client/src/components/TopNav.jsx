@@ -1,11 +1,15 @@
+import React, { useContext } from 'react'
 import {Navbar, Container, NavDropdown, Nav, Offcanvas, Form, FormControl, Button} from 'react-bootstrap/';
 import { useNavigate } from 'react-router-dom'
+import { authContext } from '../providers/AuthProvider'
 
 export default function TopNav() {
   const navigate = useNavigate();
+  const { logout } = useContext(authContext);
 
   const logoutHandler = () => {
     localStorage.removeItem("token");
+    logout();
     navigate("/");
   };
 
