@@ -4,11 +4,14 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import MarkerProvider from './providers/MarkerProvider'
+import AuthProvider from './providers/AuthProvider';
 
 ReactDOM.render(
   <React.StrictMode>
     <MarkerProvider>
-      <App />
+      <AuthProvider>
+        <App />
+      </AuthProvider>
     </MarkerProvider>
   </React.StrictMode>,
   document.getElementById('root')
