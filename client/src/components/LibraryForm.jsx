@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Form, Button, Row, Col } from 'react-bootstrap/';
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom'
+import { authContext } from '../providers/AuthProvider'
 
 const LibraryForm = () => {
   const location = useLocation();
@@ -12,6 +12,9 @@ const LibraryForm = () => {
     lat: lat,
     lng: lng
   });
+  const [errorMessage, setErrorMessage] = useState("");
+  const { auth } = useContext(authContext);
+  console.log(auth);
   const navigate = useNavigate();
 
   const onChange = (e) =>
@@ -33,31 +36,46 @@ const LibraryForm = () => {
         "x-access-token": localStorage.getItem("token"),
       }
     })
-    .then(response => {
-      console.log("Our Response:", response.data);
-      console.log("I'm the callback from the put call");
-      navigate(`/library/${response.data.library.id}`)
-    });
+      .then(response => {
+        // console.log("I'm the callback from the put call");
+        // console.log("Our Response:", response.data);
+        if (!response.data.auth) {
+          setErrorMessage(response.data.message);
+          console.log(errorMessage);
+        } else {
+          navigate(`/library/${response.data.library.id}`)
+        }
+      });
   }
+  
+  useEffect(() => {
+    if (!auth) {
+      navigate(`/login`);
+    }
+  },[auth, navigate])
 
   return (
-    <Form noValidate validated={validated} onSubmit={handleSubmit}>
-      <Row className="mb-3">
-        <Form.Group controlId="validationCustom01">
-          <Form.Label>Name/Address</Form.Label>
-          <Form.Control
-            name="address"
-            value={formData.address}
-            onChange={onChange}
-            required
-            type="text"
-            placeholder="Name/Address"
-          />
-          <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-        </Form.Group>
-      </Row>
-      <Button type="submit">Submit form</Button>
-    </Form>
+    <>
+      <Form noValidate validated={validated} onSubmit={handleSubmit}>
+        <Row className="mb-3">
+          <Form.Group controlId="validationCustom01">
+            <Form.Label>Name/Address</Form.Label>
+            <Form.Control
+              name="address"
+              value={formData.address}
+              onChange={onChange}
+              required
+              type="text"
+              placeholder="Name/Address"
+            />
+            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+          </Form.Group>
+        </Row>
+        <Button type="submit">Submit form</Button>
+      </Form>
+      <p>{!auth && errorMessage}</p>
+      {!auth && <Link to={"/login"}><Button Link>Login</Button></Link>}
+    </>
   );
 }
 
