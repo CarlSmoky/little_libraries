@@ -38,11 +38,11 @@ module.exports = ({getUserByEmail}) => {
                   message: "Login Success!",
                   auth: true,
                   token: token,
-                  // id: user.id,
-                  // firstName: user.first_name,
-                  // lastName: user.last_name,
+                  id: user.id,
+                  firstName: user.first_name,
+                  lastName: user.last_name,
                   // phoneNumber: user.phone_number,
-                  // email: user.email
+                  email: user.email
                 });
             } else {
               res
