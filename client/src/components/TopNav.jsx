@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import {Navbar, Container, NavDropdown, Nav, Offcanvas, Form, FormControl, Button} from 'react-bootstrap/';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { authContext } from '../providers/AuthProvider'
 
 export default function TopNav() {
@@ -29,8 +29,8 @@ export default function TopNav() {
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Nav className="justify-content-end flex-grow-1 pe-3">
-                <Nav.Link href="#action1">Home</Nav.Link>
-                <Nav.Link href="#action2">Link</Nav.Link>
+                <Nav.Link as={Link} to="/">Home</Nav.Link>
+                <Nav.Link as={Link} to="/login">Login</Nav.Link>
                 <Nav.Link onClick={logoutHandler}>Logout</Nav.Link>
                 <NavDropdown title="Dropdown" id="offcanvasNavbarDropdown">
                   <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
