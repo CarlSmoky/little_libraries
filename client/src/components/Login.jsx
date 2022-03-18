@@ -2,11 +2,13 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap/';
 import axios from 'axios';
+import { authContext } from '../providers/AuthProvider';
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { setUserInfo } = useContext(authContext);
 
   const validateForm = () => {
     return email.length > 0 && password.length > 0;
@@ -34,6 +36,7 @@ const Login = () => {
           localStorage.setItem("token", response.data.token);
         }
         const { id, firstName, lastName, email, auth } = response.data;
+        setUserInfo(id, firstName, lastName, email, auth);
         navigate('/')
       });
   }

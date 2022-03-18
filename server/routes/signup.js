@@ -39,10 +39,9 @@ module.exports = ({ getUserByEmail, addUser }) => {
                 auth: true,
                 token: token,
                 id: addedUser.id,
-                // firstName: addedUser.first_name,
-                // lastName: addedUser.last_name,
-                // phoneNumber: addedUser.phoneNumber,
-                // email: addedUser.email
+                firstName: addedUser.first_name,
+                lastName: addedUser.last_name,
+                email: addedUser.email
               });
           }).catch(err => {
             console.log(err);
