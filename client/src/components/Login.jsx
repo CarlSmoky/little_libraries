@@ -2,13 +2,11 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap/';
 import axios from 'axios';
-import { authContext } from '../providers/AuthProvider';
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { login } = useContext(authContext);
 
   const validateForm = () => {
     return email.length > 0 && password.length > 0;
@@ -35,24 +33,10 @@ const Login = () => {
         if (typeof window !== 'undefined') {
           localStorage.setItem("token", response.data.token);
         }
-        const { id, firstName, lastName, email } = response.data;
-        login(id, firstName, lastName, email);
+        const { id, firstName, lastName, email, auth } = response.data;
         navigate('/')
       });
   }
-
-  // const userAuthenticated = () => {
-  //   const endpoints = {
-  //     "JWT": "http://localhost:3001/api/test"
-  //   }
-  //   axios.get(endpoints.JWT, {
-  //     headers: {
-  //       "x-access-token": localStorage.getItem("token"),
-  //     },
-  //   }).then(response => {
-  //     console.log(response);
-  //   });
-  // };
 
   return (
     <div>
