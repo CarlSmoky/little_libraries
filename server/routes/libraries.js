@@ -8,17 +8,6 @@ module.exports = ({
   getLibraryById,
   addLibrary
 }) => {
-  /* GET users listing. */
-  router.get('/', (req, res) => {
-    getLibraries()
-      .then((libraries) => {
-        console.log(libraries);
-        res.json(libraries);
-      })
-      .catch((err) => res.json({
-        error: err.message
-      }));
-  });
 
   router.get('/:id', (req, res) => {
     const id = req.params.id;
@@ -31,6 +20,20 @@ module.exports = ({
         error: err.message
       }));
   });
+
+  /* GET users listing. */
+  router.get('/', (req, res) => {
+    getLibraries()
+      .then((libraries) => {
+        // console.log(libraries);
+        res.json(libraries);
+      })
+      .catch((err) => res.json({
+        error: err.message
+      }));
+  });
+
+  
 
   router.post('/', verifyJWT, (req, res) => {
     const { address, lat, lng } = req.body;
