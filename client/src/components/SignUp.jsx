@@ -1,12 +1,12 @@
-import React from 'react'
-// import './SignUp.scss'
-import { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom'
+import { authContext } from '../providers/AuthProvider';
 
 
 export default function SignUp() {
   const navigate = useNavigate();
+  const { setUserInfo } = useContext(authContext);
 
   const [formData, setFormData] = useState({
     first_name: "",
@@ -50,6 +50,8 @@ export default function SignUp() {
         if (typeof window !== 'undefined') {
           localStorage.setItem("token", response.data.token);
         }
+        const { id, firstName, lastName, email, auth } = response.data;
+        setUserInfo(id, firstName, lastName, email, auth);
         navigate('/')
       });
     }
