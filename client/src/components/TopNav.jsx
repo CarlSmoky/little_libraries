@@ -1,14 +1,19 @@
 import React, { useContext } from 'react'
 import {Navbar, Container, NavDropdown, Nav, Offcanvas, Form, FormControl, Button} from 'react-bootstrap/';
 import { useNavigate, Link } from 'react-router-dom';
+import { authContext } from '../providers/AuthProvider';
 
 export default function TopNav() {
   const navigate = useNavigate();
+  const { user, resetUserInfo } = useContext(authContext);
 
   const logoutHandler = () => {
     localStorage.removeItem("token");
+    resetUserInfo();
     navigate("/");
   };
+
+  const token = localStorage.getItem("token");
 
   return (
     <div>
@@ -27,8 +32,10 @@ export default function TopNav() {
             <Offcanvas.Body>
               <Nav className="justify-content-end flex-grow-1 pe-3">
                 <Nav.Link as={Link} to="/">Home</Nav.Link>
-                <Nav.Link as={Link} to="/login">Login</Nav.Link>
-                <Nav.Link onClick={logoutHandler}>Logout</Nav.Link>
+                {!token && <Nav.Link as={Link} to="/login">Login</Nav.Link>}
+                {!token && <Nav.Link as={Link} to="/signup">Sign Up</Nav.Link>}
+                {token && <Nav.Link onClick={logoutHandler}>Logout</Nav.Link>}
+                {user && <Nav.Link >{user.firstName}</Nav.Link>}
                 <NavDropdown title="Dropdown" id="offcanvasNavbarDropdown">
                   <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
                   <NavDropdown.Item href="#action4">Another action</NavDropdown.Item>
