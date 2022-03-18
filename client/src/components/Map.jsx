@@ -15,7 +15,7 @@ import lightFormat from 'date-fns/lightFormat';
 
 
 let mapContainerStyle = {
-  width: '900px',
+  width: '100%',
   height: '600px'
 };
 
@@ -35,12 +35,13 @@ const Map = ({ id }) => {
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
   });
-
+  
   const { markers, setMarkers } = useContext(markerContext);
   const [localMarkers, setLocalMarkers ] = useState(markers);
   const [center, setCenter] = useState(defaultCenter);
   const [selected, setSelected] = useState(null);
   const [selectedImageUrl, setSelectedImageUrl] = useState();
+
 
   const markerById = (id) => {
     const result = markers.filter(e => e.id === Number(id));
@@ -49,6 +50,7 @@ const Map = ({ id }) => {
 
   useEffect(() => {
     // when markers fetch completes, this code runs
+    console.log("run useEffect");
     handleSingleMarker();
   }, [markers]);
 
@@ -56,10 +58,10 @@ const Map = ({ id }) => {
     if (id && markers.length > 0) {
       const singleMarker = markerById(id);
       setLocalMarkers(singleMarker);
-      setCenter({
-        lat: singleMarker[0].lat,
-        lng: singleMarker[0].lng,
-      });
+      // setCenter({
+      //   lat: singleMarker[0].lat,
+      //   lng: singleMarker[0].lng,
+      // });
     } else {
       // if either id is missing or markers is still empty:
       setLocalMarkers(markers);
