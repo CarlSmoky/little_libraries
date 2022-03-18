@@ -28,7 +28,7 @@ const MarkerProvider = props => {
     fetchMarkers();
   }, []);
 
-  const provideData = { markers, setMarkers };
+  const provideData = { markers, setMarkers, fetchMarkers };
 
   return (
     <markerContext.Provider value={provideData}>

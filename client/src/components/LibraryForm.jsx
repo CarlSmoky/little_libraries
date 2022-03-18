@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import { Form, Button, Row, Col } from 'react-bootstrap/';
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import { authContext } from '../providers/AuthProvider'
+import { markerContext } from '../providers/MarkerProvider';
 
 const LibraryForm = () => {
   const location = useLocation();
@@ -13,8 +13,7 @@ const LibraryForm = () => {
     lng: lng
   });
   const [errorMessage, setErrorMessage] = useState("");
-  const { auth } = useContext(authContext);
-  console.log(auth);
+  const { fetchMarkers } = useContext(markerContext);
   const navigate = useNavigate();
 
   const onChange = (e) =>
@@ -43,20 +42,16 @@ const LibraryForm = () => {
           setErrorMessage(response.data.message);
           console.log(errorMessage);
         } else {
+          fetchMarkers();
           navigate(`/library/${response.data.library.id}`)
         }
       });
   }
-  
-  useEffect(() => {
-    if (!auth) {
-      navigate(`/login`);
-    }
-  },[auth, navigate])
+  const token = localStorage.getItem("token");
 
   return (
     <>
-      <Form noValidate validated={validated} onSubmit={handleSubmit}>
+      {token && <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Row className="mb-3">
           <Form.Group controlId="validationCustom01">
             <Form.Label>Name/Address</Form.Label>
@@ -72,9 +67,10 @@ const LibraryForm = () => {
           </Form.Group>
         </Row>
         <Button type="submit">Submit form</Button>
-      </Form>
-      <p>{!auth && errorMessage}</p>
-      {!auth && <Link to={"/login"}><Button Link>Login</Button></Link>}
+      </Form>}
+      <p>{errorMessage && errorMessage}</p>
+      {errorMessage && <Link to={"/login"}><Button Link>Login</Button></Link>}
+      {!token && <Link to={"/login"}><Button Link>Login</Button></Link>}
     </>
   );
 }
