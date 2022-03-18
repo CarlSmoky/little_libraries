@@ -20,12 +20,12 @@ const LibraryPage = () => {
       .then(res => {
         const {id, address, lat, long, img_url } = res.data;
         setLibraryInfo({id, address, lat, long, img_url})
+        
       })
       .catch (err => {
         console.log(err)
       })
     }, [id]);
-  console.log(id);
   return (
     <div>
       <LibraryDetail libraryInfo={libraryInfo}/>
