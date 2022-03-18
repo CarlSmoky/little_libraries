@@ -3,25 +3,24 @@ const { useState, createContext } = require("react");
 export const authContext = createContext();
 
 const AuthProvider = props => {
-  const [auth, setAuth] = useState(false);
   const [user, setUser] = useState(null);
 
-  const login = (id, firstName, lastName, username, phoneNumber, email) => {
+  const setUserInfo = (id, firstName, lastName, username, email, auth) => {
     const user = {
       id,
       firstName,
       lastName,
-      email};
-    setAuth(true);
+      email,
+      auth
+    };
     setUser(user);
   };
 
-  const logout = () => {
-    setAuth(false);
+  const resetUserInfo = () => {
     setUser(null);
-  };
+  }
 
-  const provideData = { auth, user, login, logout };
+  const provideData = { user, setUserInfo, resetUserInfo };
 
   return (
     <authContext.Provider value={provideData}>
