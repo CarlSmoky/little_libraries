@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom'
 import { authContext } from '../providers/AuthProvider';
+import './styles.css';
 
 
 export default function SignUp() {
@@ -17,7 +18,7 @@ export default function SignUp() {
     password: "",
     password_confirmation: ""
   });
-  
+
 
   const { first_name, last_name, phone_number, email,password, password_confirmation } = formData;
 
@@ -30,12 +31,12 @@ export default function SignUp() {
           console.log("handle submit clicked", formData)
           const newUser = {...formData };
           delete newUser.password_confirmation;
-          save(newUser);   
+          save(newUser);
         } else {
             console.log('Passwords do not match');
         }
   }
-  
+
 
   function save(newUser) {
 
@@ -126,7 +127,7 @@ export default function SignUp() {
                 </div>
 
                 <div className="form-outline mb-4">
-                  <label className="form-label" htmlFor="form3Example4cg">Password</label>
+                  <label className="form-label input-field" htmlFor="form3Example4cg">Password</label>
                   <input
                     type="password"
                     // id="form3Example4cg" className="form-control form-control-lg"
@@ -139,7 +140,7 @@ export default function SignUp() {
                 </div>
 
                 <div className="form-outline mb-4">
-                  <label className="form-label" htmlFor="form3Example4cdg">Repeat your password</label>
+                  <label className="form-label input-field" htmlFor="form3Example4cdg">Repeat your password</label>
                   <input
                     type="password"
                     // id="form3Example4cdg" className="form-control form-control-lg"
@@ -155,7 +156,7 @@ export default function SignUp() {
                 <div className="d-flex justify-content-center">
                   <button
                     type="button"
-                    className="btn btn-success btn-block btn-lg gradient-custom-4 text-body" 
+                    className="btn btn-success btn-block btn-lg gradient-custom-4 text-body"
                     onClick={handleSubmitClick}
                     >Register</button>
                 </div>
