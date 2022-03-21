@@ -17,9 +17,9 @@ export default function TopNav() {
 
   return (
     <div>
-      <Navbar bg="light" expand={false}>
+      <Navbar className="mid-color" expand={false}>
         <Container fluid>
-          <Navbar.Brand href="#">Navbar Offcanvas</Navbar.Brand>
+          <Navbar.Brand href="#">Little Libraries of Toronto</Navbar.Brand>
           <Navbar.Toggle aria-controls="offcanvasNavbar" />
           <Navbar.Offcanvas
             id="offcanvasNavbar"
