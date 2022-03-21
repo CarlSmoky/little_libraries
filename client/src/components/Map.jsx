@@ -139,8 +139,9 @@ const Map = ({ id, showSearch }) => {
             }}
           >
             <div>
-            {selected.registered && <h3>{`Little Library ${selected.name}`}</h3>}
-            {selected.registered && <img src={selectedImageUrl} alt="photo of library" width='100' height='100' />}
+            {selected.registered &&
+              <><h3>{`Little Library ${selected.name}`}</h3><img src={selectedImageUrl} alt="photo of library" width='100' height='100' /><Link to={`/library/${selected.id}`}>Library detail</Link></>
+            }
             {!selected.registered &&
             <Link
               to="/libraryForm"
