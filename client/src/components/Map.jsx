@@ -30,12 +30,12 @@ const defaultCenter =  {
 }
 const libraries = ["places"];
 
-const Map = ({ id }) => {
+const Map = ({ id, showSearch }) => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
   });
-  
+
   const { markers, setMarkers } = useContext(markerContext);
   const [localMarkers, setLocalMarkers ] = useState(markers);
   const [center, setCenter] = useState(defaultCenter);
@@ -99,8 +99,8 @@ const Map = ({ id }) => {
 
   return (
     <>
-      <Search panTo={panTo} />
-      <Locate panTo={panTo} />
+      {showSearch && <Search panTo={panTo} />}
+      {showSearch && <Locate panTo={panTo} />}
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         center={center}

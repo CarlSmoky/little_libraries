@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom'
 import { authContext } from '../providers/AuthProvider';
-import './styles.css';
 
 
 export default function SignUp() {

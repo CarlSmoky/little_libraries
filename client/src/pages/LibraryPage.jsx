@@ -20,7 +20,7 @@ const LibraryPage = () => {
       .then(res => {
         const {id, address, lat, long, img_url } = res.data;
         setLibraryInfo({id, address, lat, long, img_url})
-        
+
       })
       .catch (err => {
         console.log(err)
@@ -29,7 +29,7 @@ const LibraryPage = () => {
   return (
     <div>
       <LibraryDetail libraryInfo={libraryInfo}/>
-      <Map id={id} />
+      <Map id={id} showSearch={false}/>
     </div>
   )
 }
