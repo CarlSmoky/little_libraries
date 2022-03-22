@@ -27,7 +27,7 @@ const LibraryPage = () => {
       })
     }, [id]);
   return (
-    <div>
+    <div className="libraryContainer">
       <LibraryDetail libraryInfo={libraryInfo}/>
       <Map id={id} showSearch={false}/>
     </div>
