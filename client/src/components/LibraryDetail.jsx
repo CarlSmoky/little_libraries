@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { useState }from 'react';
+import { getStorage, ref, getDownloadURL } from "firebase/storage"; // temp
+
 
 const LibraryDetail = ({libraryInfo}) => {
+  const [selectedImageUrl, setSelectedImageUrl] = useState();
+  const storage = getStorage();
+              getDownloadURL(ref(storage, `images/${libraryInfo.id}.jpg`))
+                .then(url => {
+                  setSelectedImageUrl(url);
+                })
   return (
     <div className="libraryDetails">
-      <h1>LibraryDetail</h1>
-      <p>name:{libraryInfo.address}</p>
-      <p>description:</p>
+      <img src={selectedImageUrl} alt="photo of library"/>
+      <p>{libraryInfo.address}</p>
     </div>
   )
 }
