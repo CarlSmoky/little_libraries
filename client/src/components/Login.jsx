@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap/';
 import axios from 'axios';
 import { authContext } from '../providers/AuthProvider';
+import firebaseSignIn from '../FirebaseAuth';
+import {Auth, getAuth } from 'firebase/auth';
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -35,8 +37,9 @@ const Login = () => {
         if (typeof window !== 'undefined') {
           localStorage.setItem("token", response.data.token);
         }
-        const { id, firstName, lastName, email, auth } = response.data;
+        const { id, firstName, lastName, email, auth, firebaseToken } = response.data;
         setUserInfo(id, firstName, lastName, email, auth);
+        firebaseSignIn(firebaseToken);
         navigate('/')
       });
   }
