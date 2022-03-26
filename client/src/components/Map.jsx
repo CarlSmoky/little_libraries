@@ -14,7 +14,7 @@ import { markerContext } from '../providers/MarkerProvider';
 import lightFormat from 'date-fns/lightFormat';
 
 
-let mapContainerStyle = {
+let mapContainerStyleForFullMap = {
   width: '100%',
   height: '600px'
 };
@@ -30,7 +30,7 @@ const defaultCenter =  {
 }
 const libraries = ["places"];
 
-const Map = ({ id, showSearch }) => {
+const Map = ({ id, showSearch, mapStyle }) => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
@@ -41,6 +41,7 @@ const Map = ({ id, showSearch }) => {
   const [center, setCenter] = useState(defaultCenter);
   const [selected, setSelected] = useState(null);
   const [selectedImageUrl, setSelectedImageUrl] = useState();
+  const [mapContainerStyle, setMapContainerStyle] = useState(mapStyle);
 
 
   const markerById = (id) => {
@@ -58,6 +59,7 @@ const Map = ({ id, showSearch }) => {
     if (id && markers.length > 0) {
       const singleMarker = markerById(id);
       setLocalMarkers(singleMarker);
+      console.log("handleSingleMarker",singleMarker);
       // setCenter({
       //   lat: singleMarker[0].lat,
       //   lng: singleMarker[0].lng,
