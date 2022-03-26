@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+import { getAuth, signInWithCustomToken } from "firebase/auth";
 
 let config = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,

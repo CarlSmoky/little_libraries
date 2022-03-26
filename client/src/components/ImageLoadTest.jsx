@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import firebaseApp from './../Firebase.js'
 import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getAuth } from "firebase/auth";
 import {resizeFile , dataURIToBlob} from './../resizeFile.js';
+import firebaseSignIn from '../FirebaseAuth';
 
 export default function ImageLoadTest() {
-
+  console.log("current user?", getAuth().currentUser);
 // Get a reference to the storage service, which is used to create references in your storage bucket
 const storage = getStorage(firebaseApp);
 const [selectedImage, setSelectedImage] = useState(null);
 // this creates the firebase ref; use uploadBytes to connect the file to the ref
-const storageRef = ref(storage, 'images/5.jpg');
-console.log(process.env.REACT_APP_TEST);
+const storageRef = ref(storage, 'images/8.jpg');
   return (
     <div>
       <h1>Upload and Display Image usign React Hook's</h1>
@@ -41,12 +42,6 @@ console.log(process.env.REACT_APP_TEST);
             .catch(err => {
               console.log(err);
             })
-          // const resized = await resizeFile(file);
-          // // uploadBytes is a firebase function:
-          // uploadBytes(storageRef, resized).then((snapshot) => {
-          //     console.log('Uploaded a blob or file!');
-          //   });
-          // setSelectedImage(event.target.files[0]);
         }}
       />
     </div>
