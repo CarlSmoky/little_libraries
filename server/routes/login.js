@@ -40,10 +40,8 @@ module.exports = ({getUserByEmail}) => {
 
 
               const uid = `${user.id}`;
-              console.log("server", uid);
               admin.auth().createCustomToken(uid)
                 .then(customToken => {
-                  console.log(customToken);
                   res
                     .status(200)
                     .send({
