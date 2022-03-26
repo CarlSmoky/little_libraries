@@ -15,6 +15,11 @@ const LibraryPage = () => {
     img_url: ''}
     );
 
+  let mapContainerStyleForDetailPage = {
+    width: '100%',
+    height: '600px'
+  };
+
   useEffect(() => {
     axios.get(`http://localhost:3001/api/libraries/${id}`)
       .then(res => {
@@ -29,7 +34,7 @@ const LibraryPage = () => {
   return (
     <div className="libraryContainer">
       <LibraryDetail libraryInfo={libraryInfo}/>
-      <Map id={id} showSearch={false}/>
+      <Map id={id} showSearch={false} mapStyle={mapContainerStyleForDetailPage}/>
     </div>
   )
 }
