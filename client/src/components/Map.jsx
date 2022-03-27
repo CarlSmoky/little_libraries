@@ -51,7 +51,6 @@ const Map = ({ id, showSearch, mapStyle }) => {
 
   useEffect(() => {
     // when markers fetch completes, this code runs
-    console.log("run useEffect");
     handleSingleMarker();
   }, [markers]);
 
@@ -59,11 +58,10 @@ const Map = ({ id, showSearch, mapStyle }) => {
     if (id && markers.length > 0) {
       const singleMarker = markerById(id);
       setLocalMarkers(singleMarker);
-      console.log("handleSingleMarker",singleMarker);
-      // setCenter({
-      //   lat: singleMarker[0].lat,
-      //   lng: singleMarker[0].lng,
-      // });
+      setCenter({
+        lat: singleMarker[0].lat,
+        lng: singleMarker[0].lng,
+      });
     } else {
       // if either id is missing or markers is still empty:
       setLocalMarkers(markers);
@@ -97,7 +95,6 @@ const Map = ({ id, showSearch, mapStyle }) => {
 
   if (loadError) return "Error loading maps";
   if (!isLoaded) return "Loading Maps";
-  console.log("markers-->", markers);
 
   return (
     <>
@@ -106,7 +103,7 @@ const Map = ({ id, showSearch, mapStyle }) => {
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         center={center}
-        zoom={12}
+        zoom={localMarkers.length > 1 ? 12 : 15}
         options={options}
         onClick={onMapClick}
         onLoad={onMapLoad}
