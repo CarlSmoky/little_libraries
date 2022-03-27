@@ -112,12 +112,12 @@ const Map = ({ id, showSearch, mapStyle }) => {
           <Marker
             key={`${marker.lat}-${marker.lng}`}
             position={{ lat: marker.lat, lng: marker.lng }}
-            icon={{
-              url: '/books.png',
-              scaledSize: new window.google.maps.Size(24, 24),
-              origin: new window.google.maps.Point(0, 0),
-              anchor: new window.google.maps.Point(15, 15),
-            }}
+            // icon={{
+            //   url: '/books.png',
+            //   scaledSize: new window.google.maps.Size(24, 24),
+            //   origin: new window.google.maps.Point(0, 0),
+            //   anchor: new window.google.maps.Point(15, 15),
+            // }}
             onClick={() => {
               setSelected(marker);
               const storage = getStorage();
