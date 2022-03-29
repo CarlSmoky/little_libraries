@@ -67,15 +67,14 @@ const LibraryForm = () => {
               type="text"
               placeholder="Name/Address"
             />
-            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+            <Form.Control.Feedback>Please select an image of the library</Form.Control.Feedback>
           </Form.Group>
         </Row>
-        <Button type="submit">Submit form</Button>
+        {!libraryId && <Button type="submit">Submit form</Button>}
       </Form>}
       <p>{errorMessage && errorMessage}</p>
       {errorMessage && <Link to={"/login"}><Button Link>Login</Button></Link>}
       {!token && <Link to={"/login"}><Button Link>Login</Button></Link>}
-      {/*libraryId && <Link to="/upload" state={{libraryId}}>Upload image</Link>*/}
       {libraryId && <ImageLoadTest libraryId={libraryId}/>}
     </>
   );
