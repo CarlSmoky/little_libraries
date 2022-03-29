@@ -49,6 +49,10 @@ const Map = ({ id, showSearch, mapStyle }) => {
     return result;
   }
 
+  const usingLibraryDetail = () => {
+    return localMarkers.length == 1;
+  }
+
   useEffect(() => {
     // when markers fetch completes, this code runs
     handleSingleMarker();
@@ -69,6 +73,9 @@ const Map = ({ id, showSearch, mapStyle }) => {
   }
 
   const onMapClick = useCallback((event) => {
+    if (usingLibraryDetail()) {
+      return;
+    }
     let newMarker = {
       lat: event.latLng.lat(),
       lng: event.latLng.lng(),
