@@ -21,7 +21,6 @@ export default function App() {
         <Route path ="/signup" element={<SignUp />}/>
         <Route path ="/login" element={<Login />}/>
         <Route path ="/upload" element={<ImageLoadTest />}/>
-        <Route path ="/download" element={<ImageDownloadTest />}/>
         <Route path ="/libraryForm" element={<LibraryForm />}/>
         <Route path ="/library/:id" element={<LibraryPage />}/>
       </Routes>

@@ -3,7 +3,7 @@ import { Form, Button, Row, Col } from 'react-bootstrap/';
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { markerContext } from '../providers/MarkerProvider';
-import ImageLoadTest from './ImageDownloadTest'
+import ImageLoadTest from './ImageLoadTest'
 
 const LibraryForm = () => {
   const location = useLocation();
@@ -75,7 +75,8 @@ const LibraryForm = () => {
       <p>{errorMessage && errorMessage}</p>
       {errorMessage && <Link to={"/login"}><Button Link>Login</Button></Link>}
       {!token && <Link to={"/login"}><Button Link>Login</Button></Link>}
-      {libraryId && <Link to="/upload" state={{libraryId}}>Upload image</Link>}
+      {/*libraryId && <Link to="/upload" state={{libraryId}}>Upload image</Link>*/}
+      {libraryId && <ImageLoadTest libraryId={libraryId}/>}
     </>
   );
 }
