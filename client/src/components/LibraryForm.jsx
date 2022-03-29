@@ -3,6 +3,7 @@ import { Form, Button, Row, Col } from 'react-bootstrap/';
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { markerContext } from '../providers/MarkerProvider';
+import ImageLoadTest from './ImageDownloadTest'
 
 const LibraryForm = () => {
   const location = useLocation();
@@ -15,6 +16,7 @@ const LibraryForm = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const { fetchMarkers } = useContext(markerContext);
   const navigate = useNavigate();
+  const [libraryId, setLibraryId] = useState('');
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -43,7 +45,9 @@ const LibraryForm = () => {
           console.log(errorMessage);
         } else {
           fetchMarkers();
-          navigate(`/library/${response.data.library.id}`)
+          // navigate(`/upload/${response.data.library.id}`)
+          // navigate(`/library/${response.data.library.id}`)
+          setLibraryId(response.data.library.id);
         }
       });
   }
@@ -71,6 +75,7 @@ const LibraryForm = () => {
       <p>{errorMessage && errorMessage}</p>
       {errorMessage && <Link to={"/login"}><Button Link>Login</Button></Link>}
       {!token && <Link to={"/login"}><Button Link>Login</Button></Link>}
+      {libraryId && <Link to="/upload" state={{libraryId}}>Upload image</Link>}
     </>
   );
 }
