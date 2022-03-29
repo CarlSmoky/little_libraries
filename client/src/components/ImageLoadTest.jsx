@@ -4,14 +4,9 @@ import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 import { resizeFile, dataURIToBlob } from './../resizeFile.js';
 import firebaseSignIn from '../FirebaseAuth';
-import { useNavigate, useLocation } from 'react-router-dom'
-
-
+import { useNavigate } from 'react-router-dom';
 
 export default function ImageLoadTest({libraryId}) {
-  // const { id } = useParams();
-  const location = useLocation();
-  // const { libraryId } = location.state;
   const navigate = useNavigate();
   console.log("current user?", getAuth().currentUser);
   // Get a reference to the storage service, which is used to create references in your storage bucket

@@ -7,7 +7,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import SignUp from './components/SignUp';
 import Login from './components/Login';
 import ImageLoadTest from './components/ImageLoadTest';
-import ImageDownloadTest from './components/ImageDownloadTest';
 import LibraryForm from './components/LibraryForm';
 import LibraryPage from './pages/LibraryPage';
 
