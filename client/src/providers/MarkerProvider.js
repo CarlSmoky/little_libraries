@@ -9,7 +9,6 @@ const MarkerProvider = props => {
   const fetchMarkers = () => {
     axios.get('/api/libraries')
       .then(result => {
-        console.log(result.data, "here!");
         const dbMarkers = result.data.map(entry => ({
           lat: entry.lat,
           lng: entry.long,
