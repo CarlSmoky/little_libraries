@@ -24,15 +24,13 @@ export default function TopNav() {
     navigate("/");
   };
 
-
-
   const token = localStorage.getItem("token");
 
   return (
     <div>
       <Navbar className="mid-color" expand={false}>
         <Container fluid>
-          <Navbar.Brand href="#">Little Libraries of Toronto</Navbar.Brand>
+          <Navbar.Brand href="#" id="navbar-title">Little Libraries of Toronto</Navbar.Brand>
           <Navbar.Toggle aria-controls="offcanvasNavbar" />
           <Navbar.Offcanvas
             id="offcanvasNavbar"

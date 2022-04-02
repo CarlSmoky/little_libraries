@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 // import useApplicationData from './hooks/useApplicationData';
 import HomePage from './pages/HomePage';
 import TopNav from './components/TopNav';
+import Footer from './components/Footer';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SignUp from './components/SignUp';
 import Login from './components/Login';
@@ -23,6 +24,7 @@ export default function App() {
         <Route path ="/libraryForm" element={<LibraryForm />}/>
         <Route path ="/library/:id" element={<LibraryPage />}/>
       </Routes>
+      <Footer />
     </BrowserRouter>
   </div >
   );
