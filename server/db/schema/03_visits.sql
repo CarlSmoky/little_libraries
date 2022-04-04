@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS visits CASCADE;
+CREATE TABLE "visits" (
+  "id" SERIAL PRIMARY KEY NOT NULL,
+  "user_id" integer NOT NULL,
+  "library_id" integer NOT NULL,
+  "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
