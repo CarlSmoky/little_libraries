@@ -68,7 +68,7 @@ module.exports = (db) => {
 
     return db
       .query(query)
-      .then((result) =>result.rows[0])
+      .then((result) => result.rows[0])
       .catch((err) => err);
   };
 
@@ -84,6 +84,53 @@ module.exports = (db) => {
       .catch((err) => err);
   };
 
+  const getVisitCountByUser = (userId, libraryId) => {
+
+    const query = {
+      text: `SELECT COUNT(*) FROM visits WHERE user_id = $1 AND library_id = $2`,
+      values: [userId, libraryId]
+    };
+
+    return db
+      .query(query)
+      .then(result => result.rows[0])
+      .catch((err) => err);
+  };
+
+  const getVisitCountByLibrary = (libraryId) => {
+
+    const query = {
+      text: `SELECT COUNT(*) FROM visits WHERE library_id = $1`,
+      values: [libraryId]
+    };
+
+    return db
+      .query(query)
+      .then(result => result.rows[0])
+      .catch((err) => err);
+  };
+
+  const recordVisit = (userId, libraryId) => {
+
+    const query = {
+      text: `INSERT INTO visits (user_id, library_id) VALUES ($1, $2) returning *`,
+      values: [userId, libraryId]
+    };
+
+    return db
+      .query(query)
+      .then(result => {
+        return getVisitCountByLibrary(libraryId)
+          .then(data => {
+            return getVisitCountByUser(userId, libraryId)
+              .then(res => {
+                return { count: data.count, time: result.rows[0].created_at, countByUser: res.count };
+              });
+          });
+      })
+      .catch((err) => err);
+  };
+
   return {
     getUsers,
     getUserByEmail,
@@ -91,6 +138,9 @@ module.exports = (db) => {
     getUsersPosts,
     getLibraries,
     getLibraryById,
-    addLibrary
+    addLibrary,
+    getVisitCountByUser,
+    getVisitCountByLibrary,
+    recordVisit
   };
 };
