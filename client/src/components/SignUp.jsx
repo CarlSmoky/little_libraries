@@ -96,21 +96,6 @@ export default function SignUp() {
                     required
                   />
                 </div>
-
-                <div className="form-outline mb-4">
-                  <label className="form-label" htmlFor="form3Example3cg">Phone number</label>
-                  <input
-                    type="text"
-                    // id="form3Example3cg"
-                    className="form-control form-control-lg"
-                    onChange={onChange}
-                    placeholder='000000000'
-                    name='phone_number'
-                    value={phone_number}
-                    required
-                  />
-                </div>
-
                 <div className="form-outline mb-4">
                   <label className="form-label" htmlFor="form3Example3cg">email</label>
                   <input
