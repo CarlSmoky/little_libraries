@@ -9,19 +9,19 @@ import { Button } from 'react-bootstrap/';
 export default function SignUp() {
   const navigate = useNavigate();
   const { setUserInfo } = useContext(authContext);
+  const [ message, setMessage ] = useState('');
 
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
     username: "",
-    phone_number: "",
     email: "",
     password: "",
     password_confirmation: ""
   });
 
 
-  const { first_name, last_name, phone_number, email,password, password_confirmation } = formData;
+  const { first_name, last_name, email,password, password_confirmation } = formData;
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -53,9 +53,11 @@ export default function SignUp() {
           localStorage.setItem("token", response.data.token);
         }
         const { id, firstName, lastName, email, auth } = response.data;
+        console.log("sign up response", response)
         setUserInfo(id, firstName, lastName, email, auth);
         navigate('/')
-      });
+      })
+      .catch(error => console.log("error msg?", error));
     }
 
 

@@ -22,30 +22,37 @@ module.exports = ({ getUserByEmail, addUser }) => {
           throw new Error("The email is already registered, email has to be unique");
         }
 
-        addUser(newUser.first_name, newUser.last_name, newUser.phone_number, newUser.email, hashedPassword)
-          .then(addedUser => {
-            const userInfo = {
-              id : addedUser.id,
-              firstName : addedUser.first_name,
-              lastName : addedUser.phoneNumber
-            };
-            const token = jwt.sign(userInfo, process.env.JWT_SECRET, {
-              expiresIn: process.env.JWT_EXPIRATION_TIME,
-            });
-            res
-              .status(200)
-              .send({
-                message: "Signed up successfully!",
-                auth: true,
-                token: token,
-                id: addedUser.id,
-                firstName: addedUser.first_name,
-                lastName: addedUser.last_name,
-                email: addedUser.email
-              });
-          }).catch(err => {
-            console.log(err);
-          });
+        // Temp block new user creation
+
+        res
+          .status(401)
+          .send({ message: 'Sorry, we are not currently accepting new users' });
+        // throw new Error("No new users");
+
+        // addUser(newUser.first_name, newUser.last_name, newUser.phone_number, newUser.email, hashedPassword)
+        //   .then(addedUser => {
+        //     const userInfo = {
+        //       id : addedUser.id,
+        //       firstName : addedUser.first_name,
+        //       lastName : addedUser.phoneNumber
+        //     };
+        //     const token = jwt.sign(userInfo, process.env.JWT_SECRET, {
+        //       expiresIn: process.env.JWT_EXPIRATION_TIME,
+        //     });
+        //     res
+        //       .status(200)
+        //       .send({
+        //         message: "Signed up successfully!",
+        //         auth: true,
+        //         token: token,
+        //         id: addedUser.id,
+        //         firstName: addedUser.first_name,
+        //         lastName: addedUser.last_name,
+        //         email: addedUser.email
+        //       });
+        //   }).catch(err => {
+        //     console.log(err);
+        //   });
       });
   });
   return router;
