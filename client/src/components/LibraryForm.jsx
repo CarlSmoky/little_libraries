@@ -54,29 +54,32 @@ const LibraryForm = () => {
   const token = localStorage.getItem("token");
 
   return (
-    <>
-      {token && <Form noValidate validated={validated} onSubmit={handleSubmit}>
-        <Row className="mb-3">
-          <Form.Group controlId="validationCustom01">
-            <Form.Label>Name/Address</Form.Label>
-            <Form.Control
-              name="address"
-              value={formData.address}
-              onChange={onChange}
-              required
-              type="text"
-              placeholder="Name/Address"
-            />
-            <Form.Control.Feedback>Please select an image of the library</Form.Control.Feedback>
-          </Form.Group>
-        </Row>
-        {!libraryId && <Button type="submit">Submit form</Button>}
-      </Form>}
-      <p>{errorMessage && errorMessage}</p>
-      {errorMessage && <Link to={"/login"}><Button Link>Login</Button></Link>}
-      {!token && <Link to={"/login"}><Button Link>Login</Button></Link>}
-      {libraryId && <ImageLoadTest libraryId={libraryId}/>}
-    </>
+    <div className="card">
+      <div className="card-body p-5">
+        {token && <Form noValidate validated={validated} onSubmit={handleSubmit}>
+          <h2 class="text-uppercase text-center mb-5">Register New Library</h2>
+          <Row className="mb-3">
+            <Form.Group controlId="validationCustom01">
+              <Form.Label>Enter Name or Address of Library</Form.Label>
+              <Form.Control
+                name="address"
+                value={formData.address}
+                onChange={onChange}
+                required
+                type="text"
+                placeholder="Name/Address"
+              />
+              <Form.Control.Feedback>Please select an image of the library</Form.Control.Feedback>
+            </Form.Group>
+          </Row>
+          {!libraryId && <Button type="submit">Submit form</Button>}
+        </Form>}
+        <p>{errorMessage && errorMessage}</p>
+        {errorMessage && <Link to={"/login"}><Button Link>Login</Button></Link>}
+        {!token && <Link to={"/login"}><Button Link>Login</Button></Link>}
+        {libraryId && <ImageLoadTest libraryId={libraryId}/>}
+      </div>
+    </div>
   );
 }
 
