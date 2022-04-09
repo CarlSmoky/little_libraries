@@ -2,6 +2,8 @@ import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom'
 import { authContext } from '../providers/AuthProvider';
+import { Link } from "react-router-dom";
+import { Button } from 'react-bootstrap/';
 
 
 export default function SignUp() {
@@ -96,21 +98,6 @@ export default function SignUp() {
                     required
                   />
                 </div>
-
-                <div className="form-outline mb-4">
-                  <label className="form-label" htmlFor="form3Example3cg">Phone number</label>
-                  <input
-                    type="text"
-                    // id="form3Example3cg"
-                    className="form-control form-control-lg"
-                    onChange={onChange}
-                    placeholder='000000000'
-                    name='phone_number'
-                    value={phone_number}
-                    required
-                  />
-                </div>
-
                 <div className="form-outline mb-4">
                   <label className="form-label" htmlFor="form3Example3cg">email</label>
                   <input
@@ -130,6 +117,7 @@ export default function SignUp() {
                   <input
                     type="password"
                     // id="form3Example4cg" className="form-control form-control-lg"
+                    className="form-control form-control-lg"
                     onChange={onChange}
                     placeholder='Password'
                     name='password'
@@ -143,6 +131,7 @@ export default function SignUp() {
                   <input
                     type="password"
                     // id="form3Example4cdg" className="form-control form-control-lg"
+                    className="form-control form-control-lg"
                     onChange={onChange}
                     placeholder='Password_confirmation'
                     name='password_confirmation'
@@ -153,14 +142,14 @@ export default function SignUp() {
 
 
                 <div className="d-flex justify-content-center">
-                  <button
+                  <Button
                     type="button"
-                    className="btn btn-success btn-block btn-lg gradient-custom-4 text-body"
+                    className="btn-block btn-lg gradient-custom-4 text-body"
                     onClick={handleSubmitClick}
-                    >Register</button>
+                    >Register</Button>
                 </div>
 
-                <p className="text-center text-muted mt-5 mb-0">Have already an account? <a href="#!" className="fw-bold text-body"><u>Login here</u></a></p>
+                <p className="text-center text-muted mt-5 mb-0">Have already an account? <Link to="/login"> Login</Link></p>
 
               </form>
 

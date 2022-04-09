@@ -12,7 +12,7 @@ const LibraryDetail = ({ libraryInfo }) => {
   const [count, setCount] = useState("");
   const [createdAt, setCreatedAt] = useState("");
   const [countByUser, setCountByUser] = useState("");
-  const userId = 2;
+  const token = localStorage.getItem("token");
 
   if (libraryInfo.id) {
     getDownloadURL(ref(storage, `images/${libraryInfo.id}.jpg`))
@@ -32,14 +32,18 @@ const LibraryDetail = ({ libraryInfo }) => {
         const { count } = response.data;
         setCount(count);
       });
-  },[libraryId])
+  }, [libraryId])
 
   const handleClick = () => {
     const endpoints = {
       "RECORD_VISITS": `http://localhost:3001/api/visits/`
     }
 
-    axios.post(endpoints.RECORD_VISITS, {userId, libraryId})
+    axios.post(endpoints.RECORD_VISITS, { libraryId }, {
+      headers: {
+        "x-access-token": localStorage.getItem("token"),
+      }
+    })
       .then(response => {
         const { time, count, countByUser } = response.data;
         setCreatedAt(time);
@@ -47,18 +51,20 @@ const LibraryDetail = ({ libraryInfo }) => {
         setCountByUser(countByUser);
 
       });
-    
+
   }
 
   return (
     <div className="libraryDetails">
       {selectedImageUrl && <img src={selectedImageUrl} alt="photo of library" />}
       <p>{libraryInfo.address}</p>
-      <Button onClick={handleClick}>Record Visit</Button>
-      {countByUser && <p>You have visited {countByUser} times</p>}
-      {createdAt && <p>{createdAt}</p>}
+      {token && <Button onClick={handleClick}>Record Visit</Button>}
+      {token && countByUser && <p>You have visited {countByUser} times</p>}
+      {token && createdAt && <p>{createdAt}</p>}
       <p>All users have visited {count} times</p>
-      {!selectedImageUrl && <Link to="/upload" state={{libraryId}}>Upload image</Link>}
+      {!token && !selectedImageUrl && <p>No photos!</p>}
+      {!token && !selectedImageUrl && <Link to="/login"> Login</Link>}
+      {token && !selectedImageUrl && <Link to="/upload" state={{ libraryId }}>Upload image</Link>}
     </div>
   )
 }
