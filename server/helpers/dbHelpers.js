@@ -84,7 +84,7 @@ module.exports = (db) => {
       .catch((err) => err);
   };
 
-  const getVisitCountByUser = (userId, libraryId) => {
+  const getVisitCountByUser = async (userId, libraryId) => {
 
     const query = {
       text: `SELECT COUNT(*) FROM visits WHERE user_id = $1 AND library_id = $2`,
@@ -97,7 +97,7 @@ module.exports = (db) => {
       .catch((err) => err);
   };
 
-  const getVisitCountByLibrary = (libraryId) => {
+  const getVisitCountByLibrary = async (libraryId) => {
 
     const query = {
       text: `SELECT COUNT(*) FROM visits WHERE library_id = $1`,
@@ -110,25 +110,22 @@ module.exports = (db) => {
       .catch((err) => err);
   };
 
-  const recordVisit = (userId, libraryId) => {
+  const recordVisit = async (userId, libraryId) => {
 
     const query = {
       text: `INSERT INTO visits (user_id, library_id) VALUES ($1, $2) returning *`,
       values: [userId, libraryId]
     };
 
-    return db
-      .query(query)
-      .then(result => {
-        return getVisitCountByLibrary(libraryId)
-          .then(data => {
-            return getVisitCountByUser(userId, libraryId)
-              .then(res => {
-                return { count: data.count, time: result.rows[0].created_at, countByUser: res.count };
-              });
-          });
-      })
-      .catch((err) => err);
+    const dbResult = await db.query(query);
+    const [totalCountResult, userCountResult] = await Promise.all([
+      getVisitCountByLibrary(libraryId),
+      getVisitCountByUser(userId, libraryId)
+    ]);
+
+    return { count: totalCountResult.count,
+             time: dbResult.rows[0].created_at,
+             countByUser: userCountResult.count };
   };
 
   return {
