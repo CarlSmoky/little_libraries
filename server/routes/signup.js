@@ -29,13 +29,14 @@ module.exports = ({ getUserByEmail, addUser }) => {
         //   .send({ message: 'Sorry, we are not currently accepting new users' });
         // // throw new Error("No new users");
 
-        addUser(newUser.first_name, newUser.last_name, newUser.phone_number, newUser.email, hashedPassword)
+        addUser(newUser.first_name, newUser.last_name, newUser.email, hashedPassword)
           .then(addedUser => {
             const userInfo = {
               id : addedUser.id,
               firstName : addedUser.first_name,
-              lastName : addedUser.phoneNumber
+              lastName : addedUser.last_name
             };
+            console.log(userInfo);
             const token = jwt.sign(userInfo, process.env.JWT_SECRET, {
               expiresIn: process.env.JWT_EXPIRATION_TIME,
             });
