@@ -12,8 +12,6 @@ export default function SignUp() {
   const [ message, setMessage ] = useState('');
   const allowsSignUp = (process.env.REACT_APP_ALLOW_SIGN_UP == 'true');
 
-  console.log("signup?", allowsSignUp);
-
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -112,7 +110,7 @@ export default function SignUp() {
                     // id="form3Example3cg"
                     className="form-control form-control-lg"
                     onChange={onChange}
-                    placeholder='email'
+                    placeholder='Email'
                     name='email'
                     value={email}
                     required
@@ -140,7 +138,7 @@ export default function SignUp() {
                     // id="form3Example4cdg" className="form-control form-control-lg"
                     className="form-control form-control-lg"
                     onChange={onChange}
-                    placeholder='Password_confirmation'
+                    placeholder='Password Confirmation'
                     name='password_confirmation'
                     value={password_confirmation}
                     required
