@@ -10,7 +10,9 @@ export default function SignUp() {
   const navigate = useNavigate();
   const { setUserInfo } = useContext(authContext);
   const [ message, setMessage ] = useState('');
-  const allowsSignUp = false;
+  const allowsSignUp = (process.env.REACT_APP_ALLOW_SIGN_UP == 'true');
+
+  console.log("signup?", allowsSignUp);
 
   const [formData, setFormData] = useState({
     first_name: "",
