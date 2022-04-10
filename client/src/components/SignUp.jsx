@@ -10,6 +10,7 @@ export default function SignUp() {
   const navigate = useNavigate();
   const { setUserInfo } = useContext(authContext);
   const [ message, setMessage ] = useState('');
+  const allowsSignUp = false;
 
   const [formData, setFormData] = useState({
     first_name: "",
@@ -62,6 +63,8 @@ export default function SignUp() {
 
 
   return (
+    <>
+    {allowsSignUp ?
 <section className="vh-100 bg-image" >
   {/* <div className="mask d-flex align-items-center h-100 gradient-custom-3"> */}
     <div className="container h-100">
@@ -162,6 +165,16 @@ export default function SignUp() {
     </div>
   {/* </div> */}
 </section>
+:
+<div>
+  <div className="card" >
+    <div className="card-body p-5">
+      <h2 className="text-uppercase text-center mb-5">Sorry, sign up is currently disabled</h2>
+    </div>
+  </div>
+</div>
+}
+</>
   )
 }
 
