@@ -21,6 +21,11 @@
   margin-top: 0.13rem;
 }
 
+body {
+  /* this is to overide bootstrap and fill the space between the footer and the content */
+  background-color: var(--dark)!important; 
+}
+
 .footer {
   background-color: var(--dark);
   width: 100%;
