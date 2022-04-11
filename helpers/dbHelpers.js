@@ -23,15 +23,22 @@ module.exports = (db) => {
       .catch((err) => err);
   };
 
-  const addUser = (firstName, lastName, phoneNumber, email, hashedPassword) => {
-    const query = {
-      text: `INSERT INTO users(first_name, last_name, phone_number, email, password) VALUES($1, $2, $3, $4, $5) returning id, first_name, last_name, phone_number, email`,
-      values: [firstName, lastName, phoneNumber, email, hashedPassword]
-    };
+  const addUser = (firstName, lastName, email, hashedPassword) => {
 
+    const query = {
+      text: `INSERT INTO users(first_name, last_name, email, password) VALUES($1, $2, $3, $4) returning id, first_name, last_name, email`,
+      values: [firstName, lastName, email, hashedPassword]
+    };
+    console.log("ADD USER", query);
     return db.query(query)
-      .then(result => result.rows[0])
-      .catch(err => err);
+      .then(result => {
+        console.log(result.rows[0]);
+        return result.rows[0];
+      })
+      .catch(err => {
+        console.log(err);
+        // return err;
+      });
   };
 
   const getUsersPosts = () => {
