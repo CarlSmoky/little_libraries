@@ -130,9 +130,22 @@ module.exports = (db) => {
       getVisitCountByUser(userId, libraryId)
     ]);
 
-    return { count: totalCountResult.count,
-             time: dbResult.rows[0].created_at,
-             countByUser: userCountResult.count };
+    return {
+      count: totalCountResult.count,
+      time: dbResult.rows[0].created_at,
+      countByUser: userCountResult.count };
+  };
+
+  const getCountVisit = async (userId, libraryId) => {
+
+    const [totalCountResult, userCountResult] = await Promise.all([
+      getVisitCountByLibrary(libraryId),
+      getVisitCountByUser(userId, libraryId)
+    ]);
+
+    return {
+      count: totalCountResult.count,
+      countByUser: userCountResult.count };
   };
 
   return {
@@ -145,6 +158,7 @@ module.exports = (db) => {
     addLibrary,
     getVisitCountByUser,
     getVisitCountByLibrary,
-    recordVisit
+    recordVisit,
+    getCountVisit
   };
 };
