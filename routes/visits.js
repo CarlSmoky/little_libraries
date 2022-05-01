@@ -11,7 +11,6 @@ module.exports = ({
   router.get('/library/:libraryId/', (req, res) => {
     // const libraryId = req.query.libraryId;
     const libraryId = req.params.libraryId;
-    console.log(libraryId);
     getVisitCountByLibrary(libraryId)
       .then((count) => res.json(count))
       .catch((err) => res.json({
@@ -22,8 +21,9 @@ module.exports = ({
   //When user is logged in.
   router.post('/library/', verifyJWT, (req, res) => {
     const { libraryId } = req.body;
-    getCountVisit(req.user.id, libraryId)
-      .then((count) => res.json(count))
+    const userId = req.user.id;
+    getCountVisit(userId, libraryId)
+      .then((data) => res.json(data))
       .catch((err) => res.json({
         error: err.message
       }));
@@ -33,7 +33,7 @@ module.exports = ({
     const { libraryId } = req.body;
     const userId = req.user.id;
     recordVisit(userId, libraryId)
-      .then((counts) => res.json(counts))
+      .then((data) => res.json(data))
       .catch((err) => res.json({
         error: err.message
       }));
