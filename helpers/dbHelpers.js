@@ -104,6 +104,19 @@ module.exports = (db) => {
       .catch((err) => err);
   };
 
+  const getlastVisitByUser = async (userId, libraryId) => {
+
+    const query = {
+      text: `SELECT created_at as last_visit FROM visits WHERE user_id = $1 AND library_id = $2 ORDER BY created_at DESC LIMIT 1`,
+      values: [userId, libraryId]
+    };
+
+    return db
+      .query(query)
+      .then(result => result.rows[0])
+      .catch((err) => err);
+  };
+
   const getVisitCountByLibrary = async (libraryId) => {
 
     const query = {
@@ -125,27 +138,32 @@ module.exports = (db) => {
     };
 
     const dbResult = await db.query(query);
-    const [totalCountResult, userCountResult] = await Promise.all([
+    const [totalCountResult, userCountResult, lastVisitResult] = await Promise.all([
       getVisitCountByLibrary(libraryId),
-      getVisitCountByUser(userId, libraryId)
+      getVisitCountByUser(userId, libraryId),
+      getlastVisitByUser(userId, libraryId)
     ]);
 
     return {
       count: totalCountResult.count,
-      time: dbResult.rows[0].created_at,
-      countByUser: userCountResult.count };
+      countByUser: userCountResult.count,
+      lastVisitByUser: lastVisitResult.last_visit
+    };
   };
 
-  const getCountVisit = async (userId, libraryId) => {
+  const getCountVisit = async(userId, libraryId) => {
 
-    const [totalCountResult, userCountResult] = await Promise.all([
+    const [totalCountResult, userCountResult, lastVisitResult] = await Promise.all([
       getVisitCountByLibrary(libraryId),
-      getVisitCountByUser(userId, libraryId)
+      getVisitCountByUser(userId, libraryId),
+      getlastVisitByUser(userId, libraryId)
     ]);
 
     return {
       count: totalCountResult.count,
-      countByUser: userCountResult.count };
+      countByUser: userCountResult.count,
+      lastVisitByUser: lastVisitResult.last_visit
+    };
   };
 
   return {
@@ -156,7 +174,6 @@ module.exports = (db) => {
     getLibraries,
     getLibraryById,
     addLibrary,
-    getVisitCountByUser,
     getVisitCountByLibrary,
     recordVisit,
     getCountVisit
