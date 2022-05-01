@@ -15,9 +15,7 @@ const verifyJWT = (req, res, next) => {
       if (err) {
         res.json({ auth: false, message: "U failed to authenticate" });
       } else {
-        // req.userID = decoded.id;
         req.user = decoded; //This will pass to next destination, you can use req.user
-        console.log(req.user);
         next();
       }
     });
