@@ -26,7 +26,7 @@ module.exports = ({getUserByEmail}) => {
           console.log("couldn't find user");
           res
             .status(401)
-            .send({ message: 'This username is not registered.' });
+            .send({ emailInvalidMessage: 'This email address is not registered.' });
           return;
         }
 
@@ -63,7 +63,6 @@ module.exports = ({getUserByEmail}) => {
                       id: user.id,
                       firstName: user.first_name,
                       lastName: user.last_name,
-                      // phoneNumber: user.phone_number,
                       email: user.email,
                       firebaseToken: customToken
                     });
@@ -75,7 +74,7 @@ module.exports = ({getUserByEmail}) => {
               console.log("Entry password invalid. Try again!");
               res
                 .status(401)
-                .send({ message: "Entry password invalid. Try again!" });
+                .send({ passInvalidMessage: "Entry password invalid. Try again!" });
             }
           });
       }).catch(err => {
