@@ -6,7 +6,8 @@ const verifyJWT = require('./verifyJWT');
 module.exports = ({
   getLibraries,
   getLibraryById,
-  addLibrary
+  addLibrary,
+  addImageURLToLibrary
 }) => {
 
   router.get('/:id', (req, res) => {
@@ -33,7 +34,21 @@ module.exports = ({
       }));
   });
 
-  
+  router.post('/imageURL', (req, res) => {
+    const { id, url } = req.body;
+
+    addImageURLToLibrary(id, url)
+      .then(() => {
+        res.json({
+          message: `updated image url for library ${id}`
+        })
+      })
+      .catch(err => res.json({
+        error: err.message
+      }))
+  });
+
+
 
   router.post('/', verifyJWT, (req, res) => {
     const { address, lat, lng } = req.body;

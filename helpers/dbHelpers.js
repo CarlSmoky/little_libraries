@@ -91,6 +91,21 @@ module.exports = (db) => {
       .catch((err) => err);
   };
 
+  const addImageURLToLibrary = (id, url) => {
+    const query = {
+      text: `UPDATE libraries SET image_url = $1 WHERE id = $2`,
+      values: [url, id]
+    };
+    console.log("ADD IMAGE URL", query);
+    return db.query(query)
+      .then(result => {
+        console.log("successful added image url");
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   const getVisitCountByUser = async (userId, libraryId) => {
 
     const query = {
@@ -174,6 +189,7 @@ module.exports = (db) => {
     getLibraries,
     getLibraryById,
     addLibrary,
+    addImageURLToLibrary,
     getVisitCountByLibrary,
     recordVisit,
     getCountVisit
