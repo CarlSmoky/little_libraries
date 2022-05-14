@@ -35,9 +35,9 @@ module.exports = ({
   });
 
   router.post('/imageURL', (req, res) => {
-    const { id, url } = req.body;
-
-    addImageURLToLibrary(id, url)
+    const { id, imageURL } = req.body;
+    console.log("in post: ", imageURL);
+    addImageURLToLibrary(id, imageURL)
       .then(() => {
         res.json({
           message: `updated image url for library ${id}`
