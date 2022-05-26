@@ -183,7 +183,7 @@ module.exports = (db) => {
 
   const getMostRecentlyVisitedLibrariesForUser = async(userId) => {
     const query = {
-      text: `SELECT libraries.id, address, MAX(visits.created_at) AS last_visited FROM libraries LEFT JOIN visits ON libraries.id = visits.library_id WHERE visits.user_id = $1 GROUP BY libraries.id ORDER BY last_visited DESC;`,
+      text: `SELECT libraries.id, address, image_url, MAX(visits.created_at) AS last_visited FROM libraries LEFT JOIN visits ON libraries.id = visits.library_id WHERE visits.user_id = $1 GROUP BY libraries.id ORDER BY last_visited DESC;`,
       values: [userId]
     };
 
