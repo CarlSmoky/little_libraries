@@ -181,43 +181,18 @@ module.exports = (db) => {
     };
   };
 
-  const getMostRecentlyVisitedLibrariesForUser = async(userId) => {
-    const query = {
-      text: `SELECT libraries.id, address, image_url, MAX(visits.created_at) AS last_visited FROM libraries LEFT JOIN visits ON libraries.id = visits.library_id WHERE visits.user_id = $1 GROUP BY libraries.id ORDER BY last_visited DESC;`,
-      values: [userId]
-    };
-
-    return db
-      .query(query)
-      .then(result => result.rows)
-      .catch((err) => err);
-
-  }
-
   const getMostFrequentlyVisitedLibrariesForUser = async(userId) => {
     const query = {
-      text: `SELECT libraries.id, address, image_url,  count(*) FROM libraries LEFT JOIN visits ON libraries.id = visits.library_id WHERE visits.user_id = $1 GROUP BY libraries.id ORDER BY count DESC;`,
+      text: `SELECT libraries.id, address, image_url, count(*), MAX(visits.created_at) AS last_visited FROM libraries LEFT JOIN visits ON libraries.id = visits.library_id WHERE visits.user_id = $1 GROUP BY libraries.id ORDER BY count DESC;`,
       values: [userId]
     };
     return db
       .query(query)
-      .then(result => result.rows)
+      .then(result => {
+        return result.rows
+      })
       .catch((err) => err);
   }
-
-  const getLibrariesForUser = async(userId) => {
-
-    const [MostRecentlyVisitedLibrariesForUser, MostFrequentlyVisitedLibrariesForUser] = await Promise.all([
-      getMostRecentlyVisitedLibrariesForUser(userId),
-      getMostFrequentlyVisitedLibrariesForUser(userId),
-    ]);
-
-    return {
-      MostRecentlyVisitedLibrariesForUser,
-      MostFrequentlyVisitedLibrariesForUser
-    };
-  };
-
 
   return {
     getUsers,
@@ -226,7 +201,7 @@ module.exports = (db) => {
     getUsersPosts,
     getLibraries,
     getLibraryById,
-    getLibrariesForUser,
+    getMostFrequentlyVisitedLibrariesForUser,
     addLibrary,
     addImageURLToLibrary,
     getVisitCountByLibrary,
