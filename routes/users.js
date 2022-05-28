@@ -10,13 +10,13 @@ module.exports = ({
   getUserByEmail,
   addUser,
   getUsersPosts,
-  getLibrariesForUser
+  getMostFrequentlyVisitedLibrariesForUser
 }) => {
 
   router.post('/libraries/', verifyJWT, (req, res) => {
     // From jwt
     const userId = req.user.id;
-    getLibrariesForUser(userId)
+    getMostFrequentlyVisitedLibrariesForUser(userId)
       .then((data) => res.json(data))
       .catch((err) => res.json({
         error: err.message
