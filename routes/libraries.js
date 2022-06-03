@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const verifyJWT = require('./verifyJWT');
 
-
 module.exports = ({
   getLibraries,
   getLibraryById,
