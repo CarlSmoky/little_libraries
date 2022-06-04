@@ -79,6 +79,16 @@ module.exports = (db) => {
       .catch((err) => err);
   };
 
+  const getLibrariesWithVisitedCount = async() => {
+    const query = {
+      text: `SELECT libraries.id, address, image_url, count(*) AS count FROM libraries LEFT JOIN visits ON libraries.id = visits.library_id GROUP BY libraries.id ORDER BY count DESC;`,
+    };
+    return db
+      .query(query)
+      .then(result => result.rows)
+      .catch((err) => err);
+  }
+
   const addLibrary = (adress, lat, long) => {
     const query = {
       text: `INSERT INTO libraries (address, lat, long) VALUES($1, $2, $3) returning *`,
@@ -201,6 +211,7 @@ module.exports = (db) => {
     getUsersPosts,
     getLibraries,
     getLibraryById,
+    getLibrariesWithVisitedCount,
     getMostFrequentlyVisitedLibrariesForUser,
     addLibrary,
     addImageURLToLibrary,
