@@ -6,8 +6,20 @@ module.exports = ({
   getLibraries,
   getLibraryById,
   addLibrary,
+  getLibrariesWithVisitedCount,
   addImageURLToLibrary
 }) => {
+
+  // Get all libraries with visited count by all users
+  router.get('/all', (req, res) => {
+    getLibrariesWithVisitedCount()
+      .then((libraries) => {
+        res.json(libraries);
+      })
+      .catch((err) => res.json({
+        error: err.message
+      }));
+  });
 
   router.get('/:id', (req, res) => {
     const id = req.params.id;
