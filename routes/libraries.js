@@ -11,7 +11,7 @@ module.exports = ({
 }) => {
 
   // Get all libraries with visited count by all users
-  router.get('/all', (req, res) => {
+  router.post('/all', (req, res) => {
     getLibrariesWithVisitedCount()
       .then((libraries) => {
         res.json(libraries);
