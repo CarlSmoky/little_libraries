@@ -29,10 +29,8 @@ module.exports = (db) => {
       text: `INSERT INTO users(first_name, last_name, email, password) VALUES($1, $2, $3, $4) returning id, first_name, last_name, email`,
       values: [firstName, lastName, email, hashedPassword]
     };
-    console.log("ADD USER", query);
     return db.query(query)
       .then(result => {
-        console.log(result.rows[0]);
         return result.rows[0];
       })
       .catch(err => {
@@ -58,18 +56,21 @@ module.exports = (db) => {
   // libraries
   const getLibraries = () => {
     const query = {
-      text: 'SELECT * FROM libraries',
+      text: 'SELECT * FROM libraries WHERE hidden ISNULL',
     };
 
     return db
       .query(query)
       .then((result) => result.rows)
-      .catch((err) => err);
+      .catch((err) => {
+        console.log(err);
+        return err;
+      });
   };
 
   const getLibraryById = id => {
     const query = {
-      text: `SELECT * FROM libraries WHERE id = $1`,
+      text: `SELECT * FROM libraries WHERE id = $1 AND hidden ISNULL`,
       values: [id]
     };
 
@@ -79,9 +80,9 @@ module.exports = (db) => {
       .catch((err) => err);
   };
 
-  const getLibrariesWithVisitedCount = async() => {
+  const getLibrariesWithVisitedCount = async () => {
     const query = {
-      text: `SELECT libraries.id, address, image_url, count(*) AS count FROM libraries LEFT JOIN visits ON libraries.id = visits.library_id GROUP BY libraries.id ORDER BY count DESC;`,
+      text: `SELECT libraries.id, address, image_url, count(*) AS count FROM libraries LEFT JOIN visits ON libraries.id = visits.library_id WHERE hidden ISNULL GROUP BY libraries.id ORDER BY count DESC;`,
     };
     return db
       .query(query)
@@ -97,8 +98,16 @@ module.exports = (db) => {
 
     return db
       .query(query)
-      .then((result) => result.rows[0])
-      .catch((err) => err);
+      .then((result) => {
+        if (result) {
+          return result.rows[0];
+        }
+      })
+      .catch((err) => {
+        console.log("fail---->", err.detail);
+        res.send(err.detail);
+        // return err;
+      });
   };
 
   const addImageURLToLibrary = (id, url) => {
@@ -106,7 +115,6 @@ module.exports = (db) => {
       text: `UPDATE libraries SET image_url = $1 WHERE id = $2`,
       values: [url, id]
     };
-    console.log("ADD IMAGE URL", query);
     return db.query(query)
       .then(result => {
         console.log("successful added image url");
@@ -156,7 +164,6 @@ module.exports = (db) => {
   };
 
   const recordVisit = async (userId, libraryId) => {
-
     const query = {
       text: `INSERT INTO visits (user_id, library_id) VALUES ($1, $2) returning *`,
       values: [userId, libraryId]
@@ -176,7 +183,7 @@ module.exports = (db) => {
     };
   };
 
-  const getCountVisit = async(userId, libraryId) => {
+  const getCountVisit = async (userId, libraryId) => {
 
     const [totalCountResult, userCountResult, lastVisitResult] = await Promise.all([
       getVisitCountByLibrary(libraryId),
@@ -191,7 +198,7 @@ module.exports = (db) => {
     };
   };
 
-  const getMostFrequentlyVisitedLibrariesForUser = async(userId) => {
+  const getMostFrequentlyVisitedLibrariesForUser = async (userId) => {
     const query = {
       text: `SELECT libraries.id, address, image_url, count(*), MAX(visits.created_at) AS last_visited FROM libraries LEFT JOIN visits ON libraries.id = visits.library_id WHERE visits.user_id = $1 GROUP BY libraries.id ORDER BY count DESC;`,
       values: [userId]
