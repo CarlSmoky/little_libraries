@@ -36,7 +36,7 @@ module.exports = ({ getUserByEmail, addUser }) => {
               firstName : addedUser.first_name,
               lastName : addedUser.last_name
             };
-            console.log(userInfo);
+
             const token = jwt.sign(userInfo, process.env.JWT_SECRET, {
               expiresIn: process.env.JWT_EXPIRATION_TIME,
             });

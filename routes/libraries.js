@@ -23,7 +23,6 @@ module.exports = ({
 
   router.get('/:id', (req, res) => {
     const id = req.params.id;
-    console.log(id);
     getLibraryById(id)
       .then((library) => {
         res.json(library);
@@ -37,7 +36,6 @@ module.exports = ({
   router.get('/', (req, res) => {
     getLibraries()
       .then((libraries) => {
-        // console.log(libraries);
         res.json(libraries);
       })
       .catch((err) => res.json({
@@ -47,7 +45,7 @@ module.exports = ({
 
   router.post('/imageURL', (req, res) => {
     const { id, imageURL } = req.body;
-    console.log("in post: ", imageURL);
+    // console.log("in post: ", imageURL);
     addImageURLToLibrary(id, imageURL)
       .then(() => {
         res.json({
@@ -63,7 +61,6 @@ module.exports = ({
 
   router.post('/', verifyJWT, (req, res) => {
     const { address, lat, lng } = req.body;
-    console.log("HERE ->", req.user.id);
     addLibrary(address, lat, lng)
       .then((library) => {
         res.json({
@@ -72,9 +69,13 @@ module.exports = ({
           auth: true,
         });
       })
-      .catch((err) => res.json({
-        error: err.message
-      }));
+      .catch((err) => {
+        if (err) {
+          res.json({
+            message: 'There is already a library registered with that name'
+          });
+        }
+      });
   });
 
   return router;

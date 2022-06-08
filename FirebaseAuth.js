@@ -10,7 +10,7 @@ admin.initializeApp({
 const uid = 'test-uid';
 admin.auth().createCustomToken(uid)
   .then(customToken => {
-    console.log(customToken);
+    // console.log(customToken);
   })
   .catch(error => {
     console.log("couldn't create custom token", error);
