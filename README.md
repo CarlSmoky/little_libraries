@@ -14,7 +14,7 @@ This is a server for the 'Little Libraries' app, built with Express/Postgres/Nod
   <img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white" alt="JWT">
 </div>
 
-### Instration
+### Installation
 1. Clone this repository
 ```console
 $ git clone git@github.com:CarlSmoky/little_libraries.git
